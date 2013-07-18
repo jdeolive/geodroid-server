@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">GeoDroid Server</string>
+    <string name="offline">GeoDroid server is offline.</string>
+    <string name="online">GeoDroid server is online.</string>
+    <string name="menu_settings">Settings</string>
+    
+</resources>
