@@ -83,7 +83,7 @@
             <phase>package</phase>
             <configuration>
               <tasks>
-                <ant antfile="build.xml" target="release"/>
+                <ant antfile="build.xml" target="${build.mode}"/>
               </tasks>
             </configuration>
             <goals>
@@ -97,6 +97,7 @@
 
   <properties>
     <jeo.version>0-SNAPSHOT</jeo.version>
+    <build.mode>debug</build.mode>
   </properties>
 
 </project>

@@ -1,0 +1,3 @@
+[submodule "geodroid"]
+	path = geodroid
+	url = https://github.com/jdeolive/geodroid.git
