@@ -28,6 +28,8 @@ Building the application from sources requires:
 See the [GeoDroid README](https://github.com/jdeolive/geodroid/) for
 more information about setting up the Android SDK and getting jeo.
 
+### Build the GeoDroid library
+
 Start by doing a submodule update to bring in the core GeoDroid library.
 
     git submodule update --init
@@ -38,19 +40,22 @@ Navigate to the ``geodroid`` directory, update the project and build.
     android update project -p .
     mvn install
 
-*Note:* On OSX, when using Java 7, there will be an ANT error duging compilation. If this happens, a modified `mvn install` command needs to be run:
+*Note:* On OSX an error may occur during Maven execution that looks like:
 
-    JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home" mvn install
+    [ERROR] com.sun.tools.javac.Main is not on the classpath.
+    [ERROR] Perhaps JAVA_HOME does not point to the JDK.
+
+In that case try executing Maven with the ``tools.jar`` profile.
+
+    mvn -P tools.jar install
+
+### Build the GeoDroid Server app
 
 Navigate back the root directory, update the project and build.
 
     cd ..
     android update project -p .
     mvn install
-
-*Note:* On OSX, when using Java 7, there will be an ANT error duging compilation. If this happens, a modified `mvn install` command needs to be run:
-
-    JAVA_HOME="/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home" mvn install
 
 The above should result in a file named ``GeoDroidServer-debug.apk`` being 
 created in the ``bin`` directory.
