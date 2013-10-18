@@ -1,5 +1,6 @@
 package org.geodroid.srv;
 
+import static org.geodroid.srv.GeoDroidService.TAG;
 import static org.jeo.nano.NanoHTTPD.HTTP_OK;
 import static org.jeo.nano.NanoHTTPD.MIME_PLAINTEXT;
 
@@ -7,10 +8,9 @@ import org.jeo.geojson.GeoJSONWriter;
 import org.jeo.geom.Geom;
 import org.jeo.nano.Handler;
 import org.jeo.nano.NanoHTTPD.Response;
-import org.jeo.nano.NanoJeoServer;
+import org.jeo.nano.NanoServer;
 import org.jeo.nano.Request;
 
-import android.annotation.SuppressLint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -34,16 +34,16 @@ public class CurrentLocationHandler extends Handler {
     }
 
     @Override
-    public boolean canHandle(Request request, NanoJeoServer server) {
+    public boolean canHandle(Request request, NanoServer server) {
         return "/location".equalsIgnoreCase(request.getUri());
     }
     
     @Override
-    public Response handle(Request request, NanoJeoServer server) {
+    public Response handle(Request request, NanoServer server) {
         LocationProvider locProvider = lookupLocationProvider(locMgr);
         
         if (locProvider == null) {
-            Log.w("locationHandler", "Location manager not available");
+            Log.w(TAG, "Location manager not available");
             return null;
         }
 
