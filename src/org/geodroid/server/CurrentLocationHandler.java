@@ -1,6 +1,6 @@
-package org.geodroid.srv;
+package org.geodroid.server;
 
-import static org.geodroid.srv.GeoDroidService.TAG;
+import static org.geodroid.server.GeoDroidService.TAG;
 import static org.jeo.nano.NanoHTTPD.HTTP_OK;
 import static org.jeo.nano.NanoHTTPD.MIME_PLAINTEXT;
 

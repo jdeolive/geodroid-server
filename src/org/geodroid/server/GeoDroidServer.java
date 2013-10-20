@@ -1,4 +1,4 @@
-package org.geodroid.srv;
+package org.geodroid.server;
 
 import java.net.URL;
 import java.net.URLConnection;

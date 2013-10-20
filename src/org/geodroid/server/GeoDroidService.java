@@ -1,4 +1,4 @@
-package org.geodroid.srv;
+package org.geodroid.server;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.geodroid.srv;
+package org.geodroid.server;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
