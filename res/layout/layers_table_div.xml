@@ -1,0 +1,8 @@
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dip"
+    android:layout_height="1px"
+    android:background="@color/text_light">  
+     <TextView android:layout_span="3" android:layout_height="1px" 
+            android:layout_width="fill_parent" android:text=""/>
+</TableRow>

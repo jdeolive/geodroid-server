@@ -1,0 +1,35 @@
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="0dip"
+   android:layout_height="wrap_content"
+   android:paddingTop="5dp"
+   android:paddingBottom="5dp"
+   android:gravity="center_vertical">
+   
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+       <TextView android:id="@+id/layers.table.title"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           style="@style/bodyTextBold"/>
+        <TextView android:id="@+id/layers.table.name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/bodyText"/>
+     </LinearLayout>
+
+    <TextView android:id="@+id/layers.table.type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/bodyText"/>
+
+    <ImageView 
+        android:id="@+id/layers.table.preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/map" 
+        android:contentDescription="@string/previewInOpenLayers"/>
+
+</TableRow>

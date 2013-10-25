@@ -1,106 +1,144 @@
 package org.geodroid.server;
 
+import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.annotation.SuppressLint;
+import org.geodroid.app.GeoApplication;
+import org.jeo.android.GeoDataRegistry;
+import org.jeo.data.Registry;
+
 import android.app.Activity;
-import android.view.Menu;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.content.Context;
+import android.content.Intent;
 
-@SuppressLint("NewApi")
-public class GeoDroidServer extends Activity {
+public class GeodroidServer extends GeoApplication {
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    public static enum Status {
+        ONLINE, OFFLINE, ERROR, UNKNOWN;
+    }
 
-        final Switch s = (Switch) findViewById(R.id.onoff_switch);
-        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                new AsyncTask() {
-
-                    protected void onPreExecute() {
-                        s.setEnabled(false);
-                    };
-
-                    @Override
-                    protected Object doInBackground(Object... params) {
-
-                        Boolean start = (Boolean) params[0];
-                        if (start != isServerOnline()) {
-                            if (start) {
-                                new Start().onReceive(getApplicationContext(), null);
-                            }
-                            else {
-                                new Stop().onReceive(getApplicationContext(), null);
-                            }
-                        }
-
-                        return null;
-                    }
-
-                    protected void onPostExecute(Object result) {
-                        s.setEnabled(true);
-                    };
-                    
-                }.execute(isChecked);
-            }
-        });
+    public interface StatusCallback {
         
+        void onStatusUpdate(Status status);
+    }
 
-        final TextView t = (TextView) findViewById(R.id.hello);
-        final Handler h = new Handler();
+    public static GeodroidServer get(Activity activity) {
+        return (GeodroidServer) GeoApplication.get(activity);
+    }
 
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
+
+    static final String TAG = "GeoDroidServer";
+
+    Status status;
+    Exception error;
+    List<StatusCallback> callbacks;
+
+    ScheduledExecutorService executor; 
+
+    public GeodroidServer() {
+        status = Status.UNKNOWN;
+        callbacks = new ArrayList<StatusCallback>();
+
+        executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                h.post(new Runnable() {
-                    public void run() {
-                        new AsyncTask() {
-                            @Override
-                            protected Object doInBackground(Object... params) {
-                                return isServerOnline();
-                            }
-                            protected void onPostExecute(Object result) {
-                                t.setText(((Boolean)result) ? R.string.online : R.string.offline);
-                            }
-                        }.execute();
-                    }
-                });
+                status = ping();
+                dispatch(status);
             }
-        };
-        timer.schedule(task, 0, 5000);
+        }, 0, 4, TimeUnit.SECONDS);
+
+    }
+
+    
+    public Exception getError() {
+        return error;
+    }
+
+    public void setError(Exception error) {
+        this.error = error;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    public Registry createDataRegistry() {
+        Preferences p = new Preferences(this);
+        File dataDir = p.getDataDirectory();
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+        return new GeoDataRegistry(dataDir, null);
     }
 
-    boolean isServerOnline() {
-        try {
-            URL u = new URL("http://localhost:8000");
-            URLConnection cx = u.openConnection();
-            cx.setConnectTimeout(3000);
-            cx.connect();
-            return true;
+    public void start() {
+        startService(new Intent(this, GeoDroidService.class));
+    }
+
+    public void stop() {
+        stopService(new Intent(this, GeoDroidService.class));
+    }
+
+    public void bind(StatusCallback callback) {
+        callbacks.add(callback);
+    }
+
+    public void unbind(StatusCallback callback) {
+        callbacks.remove(callback);
+    }
+
+    public int getPort() {
+        return new Preferences(this).getPort();
+    }
+
+    Status ping() {
+        boolean srvRunning = false;
+
+        ActivityManager actMgr = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (RunningServiceInfo srvInfo : actMgr.getRunningServices(Integer.MAX_VALUE)) {
+            if (GeoDroidService.class.getName().equals(srvInfo.service.getClassName())) {
+                srvRunning = true;
+            }
         }
-        catch(Exception e) {
-            return false;
+
+        if (srvRunning) {
+            // try to connect
+            
+
+            StringBuilder sb = new StringBuilder("http://localhost:");
+            sb.append(getPort());
+            sb.append("/ping");
+
+            try {
+                URL u = new URL(sb.toString());
+                URLConnection cx = u.openConnection();
+                cx.setConnectTimeout(2000);
+                cx.connect();
+                return Status.ONLINE;
+            }
+            catch(Exception e) {
+                // service started but http server not running
+                return Status.ERROR;
+            }
+        }
+        else {
+            return Status.OFFLINE;
+        }
+    }
+
+    void dispatch(Status status) {
+        for (StatusCallback callback : callbacks) {
+            callback.onStatusUpdate(status);
         }
     }
 }

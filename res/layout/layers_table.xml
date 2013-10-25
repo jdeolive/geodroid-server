@@ -1,0 +1,39 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools"
+   android:id="@+id/layers.table"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:stretchColumns="0,2">
+   
+   <TableRow
+       android:layout_width="0dip"
+       android:layout_height="wrap_content"
+       android:paddingBottom="5dp"
+       android:gravity="center_vertical">
+       <TextView 
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="left"
+           android:text="@string/titleAndName"
+           style="@style/h2Text"/>
+       <TextView 
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center_horizontal"
+           android:text="@string/type"
+           style="@style/h2Text"/>
+       <TextView 
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center_horizontal"
+           android:text="@string/preview"
+           style="@style/h2Text"/>
+   </TableRow>
+   <TableRow 
+       android:layout_width="0dip"
+       android:layout_height="1px"
+       android:background="@color/text_light">  
+        <TextView android:layout_span="3" android:layout_height="1px" 
+               android:layout_width="fill_parent" android:text=""/>
+   </TableRow> 
+</TableLayout>

@@ -1,0 +1,155 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--  
+      Server Status section 
+    -->
+    <TextView
+        android:id="@+id/status.status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/serverStatus"
+        style="@style/h1Text" />
+
+        <View
+            android:id="@+id/status.status_div"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/status.status_title"
+            android:layout_marginTop="5dp"
+            android:background="@color/text_light"/>
+    
+    <TextView
+        android:id="@+id/status.status_detail"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/status.status_div"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        style="@style/bodyText"/>
+
+
+    <!-- TextView
+        android:id="@+id/status.port"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/status.status_div"
+        android:layout_marginTop="20dp"
+        android:text="8000"
+        style="@style/bodyText"/-->
+
+    <!-- 
+      Storage section 
+     -->
+    <TextView
+        android:id="@+id/status.storage_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/status.status_detail"
+        android:layout_marginTop="50dp"
+        android:text="@string/storage"
+        style="@style/h1Text"/>
+
+        <View
+           android:id="@+id/status.storage_div"
+           android:layout_width="fill_parent"
+           android:layout_height="1dp"
+           android:layout_below="@id/status.storage_title"
+           android:layout_marginTop="5dp"
+           android:background="@color/text_light"/>
+
+    <!--  Data Directory -->
+    <TextView
+        android:id="@+id/status.dataDir_label"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/status.storage_div"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/dataDirectory"
+        style="@style/bodyText"/>
+
+        <TextView
+            android:id="@+id/status.dataDirSize"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/status.dataDir_label"
+            android:layout_alignLeft="@id/status.dataDir_label"
+            android:text="512 MB"
+            style="@style/bodyTextSmall"/>
+
+        <TextView
+            android:id="@+id/status.dataDir"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/status.storage_div"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            style="@style/bodyText"/>
+
+    <!--  Apps Directory -->
+    <TextView
+        android:id="@+id/status.appsDir_label"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/status.dataDir_label"
+        android:layout_alignLeft="@id/status.dataDir_label"
+        android:layout_marginTop="40dp"
+        android:text="@string/appsDirectory"
+        style="@style/bodyText"/>
+
+        <TextView
+            android:id="@+id/status.appsDirSize"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/status.appsDir_label"
+            android:layout_alignLeft="@id/status.appsDir_label"
+            android:text="512 MB"
+            style="@style/bodyTextSmall"/>
+
+        <TextView
+            android:id="@+id/status.appsDir"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/status.dataDir"
+            android:layout_alignLeft="@id/status.dataDir"
+            android:layout_marginTop="40dp"
+            style="@style/bodyText"/>
+
+    <!--  WWW Directory -->
+    <TextView
+        android:id="@+id/status.wwwDir_label"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/status.appsDir_label"
+        android:layout_alignLeft="@id/status.appsDir_label"
+        android:layout_marginTop="40dp"
+        android:text="@string/wwwDirectory"
+        style="@style/bodyText"/>
+    
+        <TextView
+            android:id="@+id/status.appsDirSize"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/status.wwwDir_label"
+            android:layout_alignLeft="@id/status.wwwDir_label"
+            android:text="512 MB"
+            style="@style/bodyTextSmall"/>
+
+        <TextView
+            android:id="@+id/status.wwwDir"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/status.appsDir"
+            android:layout_alignLeft="@id/status.dataDir"
+            android:layout_marginTop="40dp"
+            style="@style/bodyText"/>
+    
+</RelativeLayout>
