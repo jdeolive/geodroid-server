@@ -1,0 +1,11 @@
+<resources>
+    
+    <dimen name="Space">5dp</dimen>
+
+    <dimen name="DividerHeight">1dp</dimen>
+
+    <dimen name="SectionMarginTop">50dp</dimen>
+    <dimen name="SubSectionMarginTop">20dp</dimen>
+    <dimen name="ContentMarginLeft">20dp</dimen>
+
+</resources>

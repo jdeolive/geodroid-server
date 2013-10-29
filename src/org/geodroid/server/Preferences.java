@@ -2,35 +2,39 @@ package org.geodroid.server;
 
 import java.io.File;
 
+import org.jeo.nano.NanoServer;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 
 public class Preferences {
 
-    static String PORT = "port"; 
+    static String PORT = "pref_port"; 
 
-    static String DATA_DIR = "dataDirectory";
+    static String DATA_DIR = "pref_dataDir";
 
-    static String APPS_DIR = "appsDirectory";
+    static String APPS_DIR = "pref_appsDir";
 
-    static String WWW_DIR = "wwwDirectory";
+    static String WWW_DIR = "pref_wwwDir";
+
+    static String NUM_THREADS = "pref_numThreads";
 
     SharedPreferences pref;
 
     public Preferences(Context context) {
-        pref = context.getSharedPreferences("geodroid", 0);
+        pref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public int getPort() {
-        return pref.getInt(PORT, 8000);
+        return getInt(PORT, 8000);
     }
 
-    public boolean setPort(int port) {
-        Editor e = pref.edit();
-        e.putInt(PORT, port);
-        return e.commit();
+
+    public int getNumThreads() {
+        return getInt(NUM_THREADS, NanoServer.DEFAULT_NUM_THREADS);
     }
 
     public File getDataDirectory() {
@@ -38,25 +42,13 @@ public class Preferences {
             new File(Environment.getExternalStorageDirectory().getPath(), "GeoData"));
     }
 
-    public boolean setDataDirectory(File dir) {
-        return putFile(DATA_DIR, dir);
-    }
-
     public File getAppsDirectory() {
         return getFile(APPS_DIR, new File(getWWWDirectory(), "apps"));
     }
 
-    public boolean setAppsDirectory(File dir) {
-        return putFile(APPS_DIR, dir);
-    }
-
     public File getWWWDirectory() {
         return getFile(WWW_DIR, 
-            new File(Environment.getExternalStorageDirectory().getPath(), "GeoDroid"));
-    }
-
-    public boolean setWWWDirectory(File dir) {
-        return putFile(WWW_DIR, dir);
+            new File(Environment.getExternalStorageDirectory().getPath(), "Geodroid"));
     }
 
     File getFile(String key, File def) {
@@ -67,5 +59,14 @@ public class Preferences {
         Editor e = pref.edit();
         e.putString(key, file.getAbsolutePath());
         return e.commit();
+    }
+
+    int getInt(String key, int def) {
+        try {
+            return Integer.parseInt(pref.getString(key, String.valueOf(def)));
+        }
+        catch(NumberFormatException e) {
+            return def;
+        }
     }
 }

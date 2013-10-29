@@ -8,7 +8,7 @@ public class Start extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        context.startService(new Intent(context, GeoDroidService.class));
+        context.startService(new Intent(context, GeodroidServerService.class));
     }
 
 }

@@ -35,7 +35,7 @@ public class GeodroidServer extends GeoApplication {
     }
 
 
-    static final String TAG = "GeoDroidServer";
+    static final String TAG = "GeodroidServer";
 
     Status status;
     Exception error;
@@ -82,11 +82,11 @@ public class GeodroidServer extends GeoApplication {
     }
 
     public void start() {
-        startService(new Intent(this, GeoDroidService.class));
+        startService(new Intent(this, GeodroidServerService.class));
     }
 
     public void stop() {
-        stopService(new Intent(this, GeoDroidService.class));
+        stopService(new Intent(this, GeodroidServerService.class));
     }
 
     public void bind(StatusCallback callback) {
@@ -106,7 +106,7 @@ public class GeodroidServer extends GeoApplication {
 
         ActivityManager actMgr = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (RunningServiceInfo srvInfo : actMgr.getRunningServices(Integer.MAX_VALUE)) {
-            if (GeoDroidService.class.getName().equals(srvInfo.service.getClassName())) {
+            if (GeodroidServerService.class.getName().equals(srvInfo.service.getClassName())) {
                 srvRunning = true;
             }
         }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="pref_port"
+        android:title="@string/pref_port"
+        android:summary="@string/pref_portSummary"
+        android:numeric="integer"
+        android:defaultValue="8000" />
+    <EditTextPreference
+        android:key="pref_num_threads"
+        android:title="@string/pref_numThreads"
+        android:summary="@string/pref_numThreadsSummary"
+        android:numeric="integer"
+        android:defaultValue="25" />
+    <EditTextPreference
+        android:key="pref_data_dir"
+        android:title="@string/pref_dataDir"
+        android:summary="@string/pref_dataDirSummary"
+        android:defaultValue="/mnt/sdcard/GeoData" />
+    <EditTextPreference
+        android:key="pref_apps_dir"
+        android:title="@string/pref_appsDir"
+        android:summary="@string/pref_appsDirSummary"
+        android:defaultValue="/mnt/sdcard/Geodroid/apps" />
+    <EditTextPreference
+        android:key="pref_www_dir"
+        android:title="@string/pref_wwwDir"
+        android:summary="@string/pref_wwwDirSummary"
+        android:defaultValue="/mnt/sdcard/Geodroid/www" />
+</PreferenceScreen>

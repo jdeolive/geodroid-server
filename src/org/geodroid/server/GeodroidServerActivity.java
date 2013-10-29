@@ -1,32 +1,18 @@
 package org.geodroid.server;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.geodroid.app.GeoApplication;
 import org.geodroid.server.GeodroidServer.Status;
 import org.jeo.data.Registry;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class GeodroidServerActivity extends Activity implements NavFragment.Callbacks, 
@@ -47,6 +33,10 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+
+        //initialize preferences
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        
         setContentView(R.layout.activity_nav);
     
         if (findViewById(R.id.detail_container) != null) {
@@ -79,7 +69,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
             // adding or replacing the detail fragment using a
             // fragment transaction.
             
-            DetailFragment frag = page.newFragment();
+            Fragment frag = page.newFragment();
             getFragmentManager().beginTransaction().replace(R.id.detail_container, frag).commit();
     
         } else {
@@ -97,12 +87,10 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
             status.post(new Runnable() {
                 @Override
                 public void run() {
-                    //status.setSelection(s.ordinal());
                     status.setTag(R.id.status_tag, s);
                     status.setText(s.name());
-                    status.setTextColor(getResources().getColor(R.color.text_light));
                     status.setEnabled(true);
-                    
+
                     switch(s) {
                     case ONLINE:
                         status.setBackgroundResource(R.drawable.status_btn_on);
@@ -125,15 +113,27 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         
+        initStatusMenuItem(menu);
+        //initSettingsMenuItem(menu);
+
+        return true;
+    }
+
+    void initStatusMenuItem(Menu menu) {
         MenuItem item = menu.findItem(R.id.menu_status);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         status = new Button(this);
         status.setEnabled(false);
+        status.setBackgroundResource(R.drawable.status_btn_disabled);
+        //status.setTextColor(getResources().getColor(R.color.text_darker));
+
         status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.setEnabled(false);
+                status.setEnabled(false);
+                //status.setBackgroundResource(R.drawable.status_btn_disabled);
+                //status.setTextColor(getResources().getColor(R.color.text_darker));
 
                 Status s = (Status) v.getTag(R.id.status_tag);
                 if (s != null) {
@@ -149,36 +149,26 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
             }
         });
 
-//        status = (Spinner) getLayoutInflater().inflate(R.layout.status_spinner, null);
-//        status.setAdapter(new StatusSpinnerAdapter(this));
-//        status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                GeodroidServer app = app();
-//
-//                Status s = (Status) status.getAdapter().getItem(position);
-//                switch(s) {
-//                case OFFLINE:
-//                    app.stop();
-//                    break;
-//                case ONLINE:
-//                    app.start();
-//                    break;
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                // TODO Auto-generated method stub
-//                
-//            }
-//        
-//        });
-        
-        item.setActionView(status);
 
-        return true;
+        item.setActionView(status);
     }
+
+//    void initSettingsMenuItem(Menu menu) {
+//        MenuItem item = menu.findItem(R.id.menu_settings);
+//        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                // Display the fragment as the main content.
+//                
+//                getFragmentManager().beginTransaction()
+//                        .replace(R.id.detail_container, new SettingsFragment())
+//                        .commit();
+//                return true;
+//            }
+//            
+//        });
+//    }
+
 
     public Registry getDataRegistry() {
         return reg;
@@ -193,91 +183,4 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
     GeodroidServer app() {
         return GeodroidServer.get(this);
     }
-
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    protected void onCreate(Bundle state) {
-//        super.onCreate(state);
-//        setContentView(R.layout.main);
-//
-//        final Switch s = (Switch) findViewById(R.id.onoff_switch);
-//        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                new AsyncTask() {
-//
-//                    protected void onPreExecute() {
-//                        s.setEnabled(false);
-//                    };
-//
-//                    @Override
-//                    protected Object doInBackground(Object... params) {
-//
-//                        Boolean start = (Boolean) params[0];
-//                        if (start != isServerOnline()) {
-//                            if (start) {
-//                                new Start().onReceive(getApplicationContext(), null);
-//                            }
-//                            else {
-//                                new Stop().onReceive(getApplicationContext(), null);
-//                            }
-//                        }
-//
-//                        return null;
-//                    }
-//
-//                    protected void onPostExecute(Object result) {
-//                        s.setEnabled(true);
-//                    };
-//                    
-//                }.execute(isChecked);
-//            }
-//        });
-//        
-//
-//        final TextView t = (TextView) findViewById(R.id.hello);
-//        final Handler h = new Handler();
-//
-//        Timer timer = new Timer();
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                h.post(new Runnable() {
-//                    public void run() {
-//                        new AsyncTask() {
-//                            @Override
-//                            protected Object doInBackground(Object... params) {
-//                                return isServerOnline();
-//                            }
-//                            protected void onPostExecute(Object result) {
-//                                t.setText(((Boolean)result) ? R.string.online : R.string.offline);
-//                            }
-//                        }.execute();
-//                    }
-//                });
-//            }
-//        };
-//        timer.schedule(task, 0, 5000);
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    boolean isServerOnline() {
-//        try {
-//            URL u = new URL("http://localhost:8000");
-//            URLConnection cx = u.openConnection();
-//            cx.setConnectTimeout(3000);
-//            cx.connect();
-//            return true;
-//        }
-//        catch(Exception e) {
-//            return false;
-//        }
-//    }
-    
 }

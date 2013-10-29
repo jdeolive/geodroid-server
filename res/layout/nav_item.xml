@@ -5,6 +5,5 @@
     android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
     android:paddingRight="?android:attr/listPreferredItemPaddingRight"
     android:minHeight="?android:attr/listPreferredItemHeightLarge"
-    android:textSize="18sp"
-    android:textColor="@drawable/list_foreground"
+    style="@style/TextLargeInverse"
     android:background="@drawable/list_background"/>

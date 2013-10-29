@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+	    <TextView android:id="@+id/logs.logs_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/serverLogs"
+	        style="@style/TextMediumCaps" />
+
+	    <Spinner android:id="@+id/logs.log_level"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true">
+	    </Spinner>
+
+        <LinearLayout android:id="@+id/logs.progress"
+           android:orientation="horizontal"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="@dimen/Space"
+           android:layout_centerVertical="true"
+           android:layout_toLeftOf="@id/logs.log_level">
+
+         <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Small"/>
+
+         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/Space"
+            android:text="@string/loadingLogs"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/divider"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+            <EditText android:id="@+id/logs.log_contents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/secondary_text_light"
+                android:background="@android:color/background_light" />
+        </ScrollView>
+
+
+</LinearLayout>

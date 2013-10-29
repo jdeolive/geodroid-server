@@ -1,10 +1,10 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+    <style name="AppBaseTheme" parent="android:Theme.Holo">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -17,4 +17,45 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="TextLarge" parent="@android:style/TextAppearance.Large"/>
+    <style name="TextLargeInverse" parent="@android:style/TextAppearance.Large.Inverse"/>
+    <style name="TextMedium" parent="@android:style/TextAppearance.Medium"/>
+    <style name="TextMediumCaps" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textAllCaps">true</item>
+    </style>
+    <style name="TextMediumInverse" parent="@android:style/TextAppearance.Medium.Inverse"/>
+    <style name="TextSmall" parent="@android:style/TextAppearance.Small"/>
+    <style name="TextSmallInverse" parent="@android:style/TextAppearance.Small.Inverse"/>
+
+    <style name="TextSmallBold" parent="TextSmall">
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="Divider">
+        <item name="android:background">@drawable/divider</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/DividerHeight</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <!-- item name="android:layout_marginBottom">20dp</item-->
+    </style>
+
+    <style name="TableHead">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">@dimen/Space</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="TableRow" parent="TableHead">
+        <item name="android:paddingTop">@dimen/Space</item>
+    </style>
+    <style name="TableDivider">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/DividerHeight</item>
+    </style>
+    <style name="TableDividerInner">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/DividerHeight</item>
+        <item name="android:background">@drawable/divider</item>
+        <item name="android:text"></item>
+    </style>
 </resources>

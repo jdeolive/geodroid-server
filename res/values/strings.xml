@@ -20,12 +20,14 @@
 
     <string name="serverStatus">Server Status</string>
     <string name="storage">Storage</string>
-    <string name="port">GeoDroid Port</string>
+    <string name="port">Geodroid Port</string>
     <string name="dataDirectory">Data Directory</string>
     <string name="appsDirectory">Apps Directory</string>
     <string name="wwwDirectory">WWW Directory</string>
+    <string name="calculating">Calculating</string>
 
     <string name="layerPreview">Layer Preview</string>
+    <string name="loadingLayers">Loading layers</string>
     <string name="all">All</string>
     <string name="point">Point</string>
     <string name="linestring">Linestring</string>
@@ -36,6 +38,9 @@
 	<string name="collection">Collection</string>
 	<string name="geometry">Geometry</string>
 	
+	<string name="serverLogs">Server Logs</string>
+	<string name="loadingLogs">Loading logs</string>
+
     <string name="vector">Collection</string>
     <string name="tile">Tile</string>
 
@@ -45,8 +50,27 @@
     <string name="preview">Preview</string>
     <string name="previewInOpenLayers">Preview in OpenLayers</string>
 
-    <string-array name="onoff">
-        <item>ON</item>
-        <item>OFF</item>
+    <string-array name="logLevels">
+        <item>Info</item>
+        <item>Warn</item>
+        <item>Error</item>
+        <item>Debug</item>
+        <item>Verbose</item>
     </string-array>
+
+    <string name="pref_port">Port</string>
+    <string name="pref_portSummary">Port Geodroid server listens on.</string>
+
+    <string name="pref_dataDir">Data Directory</string>
+    <string name="pref_dataDirSummary">Directory for spatial data storage.</string>
+
+    <string name="pref_appsDir">Apps Directory</string>
+    <string name="pref_appsDirSummary">Root directory for Geodroid applications.</string>
+
+    <string name="pref_wwwDir">WWW Directory</string>
+    <string name="pref_wwwDirSummary">Directory for shared static application file storage.</string>
+
+    <string name="pref_numThreads">Server Connections</string>
+    <string name="pref_numThreadsSummary">Maximum number of concurrent GeoDroid server connections.</string>
+
 </resources>

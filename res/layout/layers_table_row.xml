@@ -1,11 +1,6 @@
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
    xmlns:tools="http://schemas.android.com/tools"
-   android:layout_width="0dip"
-   android:layout_height="wrap_content"
-   android:paddingTop="5dp"
-   android:paddingBottom="5dp"
-   android:gravity="center_vertical">
-   
+   style="@style/TableRow">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,23 +8,22 @@
        <TextView android:id="@+id/layers.table.title"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           style="@style/bodyTextBold"/>
+           style="@style/TextSmallBold"/>
         <TextView android:id="@+id/layers.table.name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/bodyText"/>
+            style="@style/TextSmall"/>
      </LinearLayout>
 
-    <TextView android:id="@+id/layers.table.type"
+    <ImageView android:id="@+id/layers.table.type"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/bodyText"/>
+        android:layout_height="wrap_content"/>
 
     <ImageView 
         android:id="@+id/layers.table.preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/map" 
+        android:src="@drawable/ic_map" 
         android:contentDescription="@string/previewInOpenLayers"/>
 
 </TableRow>

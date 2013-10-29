@@ -1,33 +1,30 @@
 package org.geodroid.server;
 
+import android.app.Fragment;
 import android.util.AndroidRuntimeException;
 
 public enum Page {
-    STATUS(StatusFragment.class, R.string.status), 
+    STATUS(StatusPage.class, R.string.status), 
     //DATA(DataFragment.class), 
-    LAYERS(LayersFragment.class, R.string.layers)
+    LAYERS(LayersPage.class, R.string.layers),
     //APPS(AppsFragment.class), 
-    //SETTINGS(SettingsFragment.class), 
-    //LOGS(LogsFragment.class);
+    LOGS(LogsPage.class, R.string.logs),
+    SETTINGS(SettingsPage.class, R.string.settings),
     ;
-    private final Class<? extends DetailFragment> fragment;
-    private final int title;
+    final Class<? extends Fragment> fragment;
+    final int title;
     
-    private Page(Class<? extends DetailFragment> fragment, int title) {
+    private Page(Class<? extends Fragment> fragment, int title) {
         this.fragment = fragment;
         this.title = title;
     }
 
-    <T extends DetailFragment> T newFragment() {
+    <T extends Fragment> T newFragment() {
         try {
             return (T) fragment.newInstance();
         } 
         catch(Exception e) {
             throw new AndroidRuntimeException(e);
         }
-    }
-
-    int title() {
-        return title;
     }
 }

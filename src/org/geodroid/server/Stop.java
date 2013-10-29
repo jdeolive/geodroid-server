@@ -8,7 +8,7 @@ public class Stop extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        context.stopService(new Intent(context, GeoDroidService.class));
+        context.stopService(new Intent(context, GeodroidServerService.class));
     }
 
 }

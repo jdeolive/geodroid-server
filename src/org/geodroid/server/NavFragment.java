@@ -15,7 +15,7 @@ import android.widget.TextView;
  * A list fragment representing a list of Pages. This fragment also supports
  * tablet devices by allowing list items to be given an 'activated' state upon
  * selection. This helps indicate which item is currently being viewed in a
- * {@link DetailFragment}.
+ * {@link PageFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
@@ -87,6 +87,9 @@ public class NavFragment extends ListFragment {
         // Restore the previously serialized activated item position.
         if (state != null && state.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(state.getInt(STATE_ACTIVATED_POSITION));
+        }
+        else {
+            //setActivatedPosition(0);
         }
     }
     
@@ -170,7 +173,7 @@ public class NavFragment extends ListFragment {
                 view = convertView;
             }
 
-            ((TextView) view).setText(getItem(position).title());
+            ((TextView) view).setText(getItem(position).title);
 
             return view;
         }
