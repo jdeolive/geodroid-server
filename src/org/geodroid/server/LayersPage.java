@@ -11,7 +11,6 @@ import org.jeo.data.Workspace;
 import org.jeo.feature.Field;
 import org.jeo.feature.Schema;
 import org.jeo.geom.Geom;
-import org.jeo.util.Pair;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -21,10 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TabHost.TabSpec;
-import android.widget.ProgressBar;
 import android.widget.TabWidget;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -236,7 +235,7 @@ public class LayersPage extends PageFragment {
 
                         StringBuilder buf = new StringBuilder("http://localhost:");
                         buf.append(pref.getPort());
-                        
+
                         if (data instanceof TileDataset) {
                             buf.append("/tiles");
                         }

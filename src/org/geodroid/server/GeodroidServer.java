@@ -10,7 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.geodroid.app.GeoApplication;
-import org.jeo.android.GeoDataRegistry;
+import org.geodroid.app.GeoDataRegistry;
 import org.jeo.data.Registry;
 
 import android.app.Activity;

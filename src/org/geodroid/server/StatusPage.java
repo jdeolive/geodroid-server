@@ -1,7 +1,6 @@
 package org.geodroid.server;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayDeque;
 
 import org.jeo.util.Pair;
