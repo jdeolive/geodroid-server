@@ -16,7 +16,6 @@ import org.jeo.map.View;
 import org.jeo.nano.AppsHandler;
 import org.jeo.nano.FeatureHandler;
 import org.jeo.nano.Handler;
-import org.jeo.nano.MapHandler;
 import org.jeo.nano.MapRenderer;
 import org.jeo.nano.NanoServer;
 import org.jeo.nano.TileHandler;
@@ -57,8 +56,7 @@ public class GeodroidServerService extends Service {
         List<Handler> handlers = new ArrayList<Handler>();
         handlers.add(new CurrentLocationHandler(locMgr));
         handlers.add(new TileHandler());
-        handlers.add(new FeatureHandler());
-        handlers.add(new MapHandler(new MapRenderer() {
+        handlers.add(new FeatureHandler( new MapRenderer() {
             @Override
             public void render(Map map, OutputStream out) throws IOException {
                 View view = map.getView();

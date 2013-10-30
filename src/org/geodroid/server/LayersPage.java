@@ -241,7 +241,7 @@ public class LayersPage extends PageFragment {
                             buf.append("/tiles");
                         }
                         else {
-                            buf.append("/maps");
+                            buf.append("/features");
                         }
 
                         if (parent != null) {
