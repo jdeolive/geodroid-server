@@ -14,13 +14,13 @@ public class Preferences {
 
     static String PORT = "pref_port"; 
 
-    static String DATA_DIR = "pref_dataDir";
+    static String DATA_DIR = "pref_data_dir";
 
-    static String APPS_DIR = "pref_appsDir";
+    static String APPS_DIR = "pref_apps_dir";
 
-    static String WWW_DIR = "pref_wwwDir";
+    static String WWW_DIR = "pref_www_dir";
 
-    static String NUM_THREADS = "pref_numThreads";
+    static String NUM_THREADS = "pref_num_threads";
 
     SharedPreferences pref;
 
@@ -39,7 +39,7 @@ public class Preferences {
 
     public File getDataDirectory() {
         return getFile(DATA_DIR, 
-            new File(Environment.getExternalStorageDirectory().getPath(), "GeoData"));
+            new File(Environment.getExternalStorageDirectory().getPath(), "Geodata"));
     }
 
     public File getAppsDirectory() {
