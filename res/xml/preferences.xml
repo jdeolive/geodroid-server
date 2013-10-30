@@ -16,7 +16,7 @@
         android:key="pref_data_dir"
         android:title="@string/pref_dataDir"
         android:summary="@string/pref_dataDirSummary"
-        android:defaultValue="/mnt/sdcard/GeoData" />
+        android:defaultValue="/mnt/sdcard/Geodata" />
     <EditTextPreference
         android:key="pref_apps_dir"
         android:title="@string/pref_appsDir"
