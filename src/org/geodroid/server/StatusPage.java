@@ -48,7 +48,7 @@ public class StatusPage extends PageFragment {
         File wwwDir = p.getWWWDirectory();
         File appsDir = p.getAppsDirectory();
 
-        setDir(R.id.status_dataDir, v, appsDir);
+        setDir(R.id.status_dataDir, v, dataDir);
         setDir(R.id.status_wwwDir, v, wwwDir);
         setDir(R.id.status_appsDir, v, appsDir);
 
