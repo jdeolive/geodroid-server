@@ -34,7 +34,10 @@ public class GeodroidServer extends GeoApplication {
         return (GeodroidServer) GeoApplication.get(activity);
     }
 
-
+    public static BuildInfo getBuildInfo(Context context) {
+        return new BuildInfo(context.getResources().openRawResource(R.raw.version), context);
+    }
+    
     static final String TAG = "GeodroidServer";
 
     Status status;

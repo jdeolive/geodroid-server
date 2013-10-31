@@ -5,6 +5,7 @@ import org.jeo.data.Registry;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class GeodroidServerActivity extends Activity implements NavFragment.Callbacks, 
@@ -114,6 +116,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
         getMenuInflater().inflate(R.menu.main, menu);
         
         initStatusMenuItem(menu);
+        initAboutMenuItem(menu);
         //initSettingsMenuItem(menu);
 
         return true;
@@ -153,6 +156,30 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
         item.setActionView(status);
     }
 
+    void initAboutMenuItem(Menu menu) {
+        MenuItem item = menu.findItem(R.id.menu_about);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(GeodroidServerActivity.this);
+                builder.setTitle(R.string.about_geodroid);
+                builder.setPositiveButton(android.R.string.ok, null);
+
+                BuildInfo bi = GeodroidServer.getBuildInfo(GeodroidServerActivity.this);
+
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_about, null);
+                TextView buildInfo = (TextView) dialogView.findViewById(R.id.about_build_info);
+                buildInfo.setText(String.format(getResources().getString(R.string.build_info), 
+                    bi.getVersion(), bi.getBuildRevShort(), bi.getBuildTimeHuman()));
+
+                builder.setView(dialogView);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return true;
+            }
+        });
+    }
 //    void initSettingsMenuItem(Menu menu) {
 //        MenuItem item = menu.findItem(R.id.menu_settings);
 //        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {

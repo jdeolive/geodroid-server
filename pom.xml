@@ -8,7 +8,6 @@
   <version>0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  
   <repositories>
     <repository>
       <id>opengeo</id>
@@ -30,6 +29,24 @@
   
   <build>
     <plugins>
+      <!-- initialize git revision info -->
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>2.1.4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
+          <skipPoms>false</skipPoms>
+          <verbose>false</verbose>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <configuration>
@@ -63,10 +80,33 @@
         </dependencies>
         <executions>
           <execution>
+            <id>version</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="res/raw"/>
+                <copy file="version.properties" 
+                      tofile="res/raw/version">
+                   <filterset>
+                       <filter token="build.rev" value="${git.commit.id}"/>
+                       <filter token="build.rev.short" value="${git.commit.id.abbrev}"/>
+                       <filter token="build.time" value="${git.build.time}"/>
+                       <filter token="build.time.human" value="${build.prettydate}"/>
+                   </filterset>
+             
+                </copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
             <id>clean</id>
             <phase>clean</phase>
             <configuration>
               <tasks>
+                <delete file="res/raw/version"/>
                 <mkdir dir="libs"/>
                 <delete>
                   <fileset dir="${basedir}/libs" includes="*.jar"/>
@@ -124,6 +164,8 @@
   <properties>
     <jeo.version>0-SNAPSHOT</jeo.version>
     <build.mode>debug</build.mode>
+    <maven.build.timestamp.format>E MMM dd, yyyy @ HH:mm z</maven.build.timestamp.format>
+    <build.prettydate>${maven.build.timestamp}</build.prettydate>
   </properties>
 
 </project>

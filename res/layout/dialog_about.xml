@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_geodroid_content"
+        style="@style/TextMedium"/>
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+	    <TextView 
+	        android:id="@+id/about.url"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:autoLink="web"
+	        android:text="@string/about_geodroid_url"
+	        style="@style/TextMedium"
+	        android:paddingTop="@dimen/SectionMarginTop"/>
+
+	    <TextView 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/about.url"
+	        android:text="@string/developed_by"
+	        style="@style/TextMedium"
+	        android:drawablePadding="@dimen/Space"
+	        android:drawableRight="@drawable/boundless_logo"
+	        android:gravity="center"
+	        android:paddingTop="@dimen/SectionMarginTop"/>
+    </RelativeLayout>
+
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/SectionMarginTop"
+        android:text="@string/this_build"/>
+
+    <TextView style="@style/Divider"/>
+
+    <TextView
+        android:id="@+id/about.build_info" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/SubSectionMarginTop"/>
+
+</LinearLayout>
