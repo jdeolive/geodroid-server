@@ -26,6 +26,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.location.LocationManager;
@@ -100,12 +101,18 @@ public class GeodroidServerService extends Service {
     }
 
     void notifyStarted() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://localhost:8000/"));
+        Preferences p = new Preferences(this);
+        
+        Intent intent = new Intent(Intent.ACTION_VIEW, 
+            Uri.parse(String.format("http://localhost:%d/", p.getPort())));
+        
         PendingIntent pending = 
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
+        Resources res = getResources();
         Notification.Builder nBuilder = new Notification.Builder(this)
-            .setContentTitle("GeoDroid").setContentText("Server online")
+            .setContentTitle(res.getText(R.string.app_name))
+            .setContentText(res.getText(R.string.server_online))
             .setSmallIcon(R.drawable.ic_stat_service).setContentIntent(pending);
 
         NotificationManager nMgr = 
@@ -114,9 +121,11 @@ public class GeodroidServerService extends Service {
     }
 
     void notifyStopped() {
+        Resources res = getResources();
         Notification.Builder nBuilder = new Notification.Builder(this)
-        .setContentTitle("GeoDroid").setContentText("Server offline")
-        .setSmallIcon(R.drawable.ic_stat_service);
+            .setContentTitle(res.getText(R.string.app_name_short))
+            .setContentText(res.getText(R.string.server_offline))
+            .setSmallIcon(R.drawable.ic_stat_service);
     
         NotificationManager nMgr = 
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
