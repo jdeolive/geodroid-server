@@ -1,0 +1,26 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView android:id="@+id/apps.table.title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/TextMedium"/>
+     <TextView android:id="@+id/apps.table.url"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:clickable="true"
+         android:focusable="true"
+         android:focusableInTouchMode="true"
+         android:background="@drawable/text_clickable"
+         style="@style/TextSmallBold"/>
+     <TextView android:id="@+id/apps.table.dir"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         style="@style/TextSmall"/>
+     <TextView 
+         style="@style/Divider"/>
+</LinearLayout>

@@ -11,7 +11,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_gravity="left"
-           android:text="@string/titleAndName"
+           android:text="@string/title_and_name"
            style="@style/TextMedium"/>
        <TextView 
            android:layout_width="wrap_content"

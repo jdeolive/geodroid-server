@@ -6,63 +6,56 @@ import org.jeo.nano.NanoServer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 
+/**
+ * Helper class for accesing app preferences.
+ * 
+ * @author Justin Deoliveira, Boundless
+ */
 public class Preferences {
 
-    static String PORT = "pref_port"; 
-
-    static String DATA_DIR = "pref_data_dir";
-
-    static String APPS_DIR = "pref_apps_dir";
-
-    static String WWW_DIR = "pref_www_dir";
-
-    static String NUM_THREADS = "pref_num_threads";
-
     SharedPreferences pref;
-
+    Resources res;
+    
     public Preferences(Context context) {
         pref = PreferenceManager.getDefaultSharedPreferences(context);
+        res = context.getResources();
     }
 
     public int getPort() {
-        return getInt(PORT, 8000);
+        return getInt(R.string.pref_port_key, 8000);
     }
 
 
     public int getNumThreads() {
-        return getInt(NUM_THREADS, NanoServer.DEFAULT_NUM_THREADS);
+        return getInt(R.string.pref_num_threads_key, NanoServer.DEFAULT_NUM_THREADS);
     }
 
     public File getDataDirectory() {
-        return getFile(DATA_DIR, 
+        return getFile(R.string.pref_data_dir_key, 
             new File(Environment.getExternalStorageDirectory().getPath(), "Geodata"));
     }
 
     public File getAppsDirectory() {
-        return getFile(APPS_DIR, new File(getWWWDirectory(), "apps"));
+        return getFile(R.string.pref_apps_dir_key, new File(getWWWDirectory(), "apps"));
     }
 
     public File getWWWDirectory() {
-        return getFile(WWW_DIR, 
+        return getFile(R.string.pref_www_dir_key, 
             new File(Environment.getExternalStorageDirectory().getPath(), "Geodroid"));
     }
 
-    File getFile(String key, File def) {
+    File getFile(int k, File def) {
+        String key = res.getString(k);
         return pref.contains(key) ? new File(pref.getString(key, null)) : def;
     }
 
-    boolean putFile(String key, File file) {
-        Editor e = pref.edit();
-        e.putString(key, file.getAbsolutePath());
-        return e.commit();
-    }
-
-    int getInt(String key, int def) {
+    int getInt(int k, int def) {
         try {
+            String key = res.getString(k);
             return Integer.parseInt(pref.getString(key, String.valueOf(def)));
         }
         catch(NumberFormatException e) {

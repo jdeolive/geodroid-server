@@ -37,7 +37,7 @@ public class LogsPage extends PageFragment implements OnItemSelectedListener {
 
         Spinner levSpinner = (Spinner) v.findViewById(R.id.logs_log_level);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), 
-            R.array.logLevels, android.R.layout.simple_spinner_item);
+            R.array.log_levels, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         
         levSpinner.setAdapter(adapter);

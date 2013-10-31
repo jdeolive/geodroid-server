@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Geodroid Server</string>
+    <string name="app_name_short">Geodroid</string>
     
     <string name="status_offline">Geodroid server is offline.</string>
     <string name="status_online">Geodroid server is online and running on port %d.</string>
@@ -11,6 +12,9 @@
     <string name="title_page_list">Pages</string>
     <string name="title_page_detail">Page Detail</string>
 
+    <string name="server_online">Server online</string>
+    <string name="server_offline">Server offline</string>
+    
     <string name="apps">Apps</string>
     <string name="data">Data</string>
     <string name="layers">Layers</string>
@@ -18,16 +22,16 @@
     <string name="settings">Settings</string>
     <string name="status">Status</string>
 
-    <string name="serverStatus">Server Status</string>
+    <string name="server_status">Server Status</string>
     <string name="storage">Storage</string>
     <string name="port">Geodroid Port</string>
-    <string name="dataDirectory">Data Directory</string>
-    <string name="appsDirectory">Apps Directory</string>
-    <string name="wwwDirectory">WWW Directory</string>
+    <string name="data_directory">Data Directory</string>
+    <string name="apps_directory">Apps Directory</string>
+    <string name="www_directory">WWW Directory</string>
     <string name="calculating">Calculating</string>
 
-    <string name="layerPreview">Layer Preview</string>
-    <string name="loadingLayers">Loading layers</string>
+    <string name="layer_preview">Layer Preview</string>
+    <string name="loading_layers">Loading layers</string>
     <string name="all">All</string>
     <string name="point">Point</string>
     <string name="linestring">Linestring</string>
@@ -38,19 +42,22 @@
 	<string name="collection">Collection</string>
 	<string name="geometry">Geometry</string>
 	
-	<string name="serverLogs">Server Logs</string>
-	<string name="loadingLogs">Loading logs</string>
+	<string name="server_logs">Server Logs</string>
+	<string name="loading_logs">Loading logs</string>
 
+	<string name="applications">Applications</string>
+	<string name="loading_apps">Loading Apps</string>
+	
     <string name="vector">Collection</string>
     <string name="tile">Tile</string>
 
     <string name="refresh">Refresh</string>
-    <string name="titleAndName">Title &amp; Name</string>
+    <string name="title_and_name">Title &amp; Name</string>
     <string name="type">Type</string>
     <string name="preview">Preview</string>
-    <string name="previewInOpenLayers">Preview in OpenLayers</string>
+    <string name="preview_in_openlayers">Preview in OpenLayers</string>
 
-    <string-array name="logLevels">
+    <string-array name="log_levels">
         <item>Info</item>
         <item>Warn</item>
         <item>Error</item>
@@ -59,18 +66,23 @@
     </string-array>
 
     <string name="pref_port">Port</string>
-    <string name="pref_portSummary">Port Geodroid server listens on.</string>
+    <string name="pref_port_key">pref_port</string>
+    <string name="pref_port_summary">Port server listens on.</string>
 
-    <string name="pref_dataDir">Data Directory</string>
-    <string name="pref_dataDirSummary">Directory for spatial data storage.</string>
+    <string name="pref_data_dir">Data Directory</string>
+    <string name="pref_data_dir_key">pref_data_dir</string>
+    <string name="pref_data_dir_summary">Directory for spatial data storage.</string>
 
-    <string name="pref_appsDir">Apps Directory</string>
-    <string name="pref_appsDirSummary">Root directory for Geodroid applications.</string>
+    <string name="pref_apps_dir">Apps Directory</string>
+    <string name="pref_apps_dir_key">pref_apps_dir</string>
+    <string name="pref_apps_dir_summary">Root directory for applications.</string>
 
-    <string name="pref_wwwDir">WWW Directory</string>
-    <string name="pref_wwwDirSummary">Directory for shared static application file storage.</string>
+    <string name="pref_www_dir">WWW Directory</string>
+    <string name="pref_www_dir_key">pref_www_dir</string>
+    <string name="pref_www_dir_summary">Directory for shared static application file storage.</string>
 
-    <string name="pref_numThreads">Server Connections</string>
-    <string name="pref_numThreadsSummary">Maximum number of concurrent GeoDroid server connections.</string>
+    <string name="pref_num_threads">Server Connections</string>
+    <string name="pref_num_threads_key">pref_num_threads </string>
+    <string name="pref_num_thread_summary">Maximum number of concurrent server connections.</string>
 
 </resources>

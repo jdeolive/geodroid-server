@@ -7,7 +7,7 @@ public enum Page {
     STATUS(StatusPage.class, R.string.status), 
     //DATA(DataFragment.class), 
     LAYERS(LayersPage.class, R.string.layers),
-    //APPS(AppsFragment.class), 
+    APPS(AppsPage.class, R.string.apps), 
     LOGS(LogsPage.class, R.string.logs),
     SETTINGS(SettingsPage.class, R.string.settings),
     ;

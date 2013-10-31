@@ -16,7 +16,7 @@
             android:id="@+id/status.status_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/serverStatus"
+            android:text="@string/server_status"
             style="@style/TextMediumCaps" />
 
         <View
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/SubSectionMarginTop"
-                android:text="@string/dataDirectory"
+                android:text="@string/data_directory"
                 style="@style/TextMedium"/>
         
                 <TextView
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/SubSectionMarginTop"
-                android:text="@string/appsDirectory"
+                android:text="@string/apps_directory"
                 style="@style/TextMedium"/>
         
                 <TextView
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/SubSectionMarginTop"
-                android:text="@string/wwwDirectory"
+                android:text="@string/www_directory"
                 style="@style/TextMedium"/>
 
         

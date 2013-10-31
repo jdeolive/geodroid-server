@@ -11,7 +11,7 @@
 	    <TextView android:id="@+id/logs.logs_title"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/serverLogs"
+	        android:text="@string/server_logs"
 	        style="@style/TextMediumCaps" />
 
 	    <Spinner android:id="@+id/logs.log_level"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/Space"
-            android:text="@string/loadingLogs"/>
+            android:text="@string/loading_logs"/>
         </LinearLayout>
 
     </RelativeLayout>
