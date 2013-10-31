@@ -17,14 +17,14 @@
         android:title="@string/pref_data_dir"
         android:summary="@string/pref_data_dir_summary"
         android:defaultValue="/mnt/sdcard/Geodata" />
-    <EditTextPreference
+    <!-- EditTextPreference
         android:key="@string/pref_apps_dir_key"
         android:title="@string/pref_apps_dir"
         android:summary="@string/pref_apps_dir_summary"
-        android:defaultValue="/mnt/sdcard/Geodroid/apps" />
+        android:defaultValue="/mnt/sdcard/Geodroid/apps" /-->
     <EditTextPreference
-        android:key="@string/pref_www_dir_key"
-        android:title="@string/pref_www_dir"
-        android:summary="@string/pref_www_dir_summary"
-        android:defaultValue="/mnt/sdcard/Geodroid/www" />
+        android:key="@string/pref_web_dir_key"
+        android:title="@string/pref_web_dir"
+        android:summary="@string/pref_web_dir_summary"
+        android:defaultValue="/mnt/sdcard/Geodroid" />
 </PreferenceScreen>

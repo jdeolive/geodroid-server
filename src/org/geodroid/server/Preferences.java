@@ -40,11 +40,11 @@ public class Preferences {
     }
 
     public File getAppsDirectory() {
-        return getFile(R.string.pref_apps_dir_key, new File(getWWWDirectory(), "apps"));
+        return new File(getWebDirectory(), "apps");
     }
 
-    public File getWWWDirectory() {
-        return getFile(R.string.pref_www_dir_key, 
+    public File getWebDirectory() {
+        return getFile(R.string.pref_web_dir_key, 
             new File(Environment.getExternalStorageDirectory().getPath(), "Geodroid"));
     }
 

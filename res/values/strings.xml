@@ -28,7 +28,7 @@
     <string name="port">Geodroid Port</string>
     <string name="data_directory">Data Directory</string>
     <string name="apps_directory">Apps Directory</string>
-    <string name="www_directory">WWW Directory</string>
+    <string name="www_directory">Web Directory</string>
     <string name="calculating">Calculating</string>
 
     <string name="layer_preview">Layer Preview</string>
@@ -84,13 +84,14 @@
     <string name="pref_data_dir_key">pref_data_dir</string>
     <string name="pref_data_dir_summary">Directory for spatial data storage.</string>
 
-    <string name="pref_apps_dir">Apps Directory</string>
+    <!-- <string name="pref_apps_dir">Apps Directory</string>
     <string name="pref_apps_dir_key">pref_apps_dir</string>
     <string name="pref_apps_dir_summary">Root directory for applications.</string>
+ -->
 
-    <string name="pref_www_dir">WWW Directory</string>
-    <string name="pref_www_dir_key">pref_www_dir</string>
-    <string name="pref_www_dir_summary">Directory for shared static application file storage.</string>
+    <string name="pref_web_dir">Web Directory</string>
+    <string name="pref_web_dir_key">pref_webroot_dir</string>
+    <string name="pref_web_dir_summary">Directory for static file storage.</string>
 
     <string name="pref_num_threads">Server Connections</string>
     <string name="pref_num_threads_key">pref_num_threads </string>

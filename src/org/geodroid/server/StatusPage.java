@@ -45,15 +45,13 @@ public class StatusPage extends PageFragment {
         }
 
         File dataDir = p.getDataDirectory();
-        File wwwDir = p.getWWWDirectory();
-        File appsDir = p.getAppsDirectory();
+        File wwwDir = p.getWebDirectory();
 
         setDir(R.id.status_dataDir, v, dataDir);
         setDir(R.id.status_wwwDir, v, wwwDir);
-        setDir(R.id.status_appsDir, v, appsDir);
 
         new DirSize().execute(Pair.of(dataDir, R.id.status_dataDirSize), 
-            Pair.of(wwwDir, R.id.status_wwwDirSize), Pair.of(appsDir, R.id.status_appsDirSize));
+            Pair.of(wwwDir, R.id.status_wwwDirSize));
     }
 
     void setDir(int id, View v, final File dir) {

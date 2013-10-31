@@ -49,7 +49,7 @@ public class GeodroidServerService extends Service {
         Preferences p = new Preferences(this);
 
         File appsDir = initDir(p.getAppsDirectory());
-        File wwwDir = initDir(p.getWWWDirectory());
+        File wwwDir = initDir(p.getWebDirectory());
 
         LocationManager locMgr = 
             (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
