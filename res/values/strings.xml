@@ -59,7 +59,7 @@
     <string name="preview_in_openlayers">Preview in OpenLayers</string>
 
     <string name="about_geodroid">About Geodroid</string>
-    <string name="about_geodroid_content">Geodroid is an open source project licensed under the Apache License.</string>
+    <string name="about_geodroid_content">Geodroid is an open source project licensed under the Apache License, Version 2.0.</string>
     <string name="about_geodroid_url">http://github.com/boundlessgeo/geodroid-server</string>
 	<string name="developed_by">Developed by</string>
 	<string name="this_build">This Build</string>
