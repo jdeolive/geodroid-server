@@ -18,6 +18,7 @@ import org.jeo.nano.FeatureHandler;
 import org.jeo.nano.Handler;
 import org.jeo.nano.MapRenderer;
 import org.jeo.nano.NanoServer;
+import org.jeo.nano.StyleHandler;
 import org.jeo.nano.TileHandler;
 
 import android.app.Notification;
@@ -72,6 +73,7 @@ public class GeodroidServerService extends Service {
             }
         }));
 
+        handlers.add(new StyleHandler());
         handlers.add(new AppsHandler(appsDir));
 
         try {
