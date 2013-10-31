@@ -65,6 +65,9 @@
 	<string name="this_build">This Build</string>
 	<string name="build_info">Version %1$s (rev %2$s) built on %3$s</string>
 
+	<string name="oops">Oops</string>
+	<string name="error_occurred">An unexpected error has occurred. Please report the stack trace below to developers.</string>
+	
     <string-array name="log_levels">
         <item>Info</item>
         <item>Warn</item>

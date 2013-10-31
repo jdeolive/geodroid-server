@@ -78,7 +78,7 @@ public class StatusPage extends PageFragment {
         });*/
     }
 
-    class DirSize extends AsyncTask<Pair<File,Integer>, Void, Void> {
+    class DirSize extends AsyncTask<Pair<File,Integer>, Void, Exception> {
 
         @Override
         protected void onPreExecute() {
@@ -86,51 +86,60 @@ public class StatusPage extends PageFragment {
         }
 
         @Override
-        protected Void doInBackground(Pair<File,Integer>... args) {
-            for (Pair<File, Integer> p : args){
-                calc(p.first(), p.second());
+        protected Exception doInBackground(Pair<File,Integer>... args) {
+            try {
+                for (Pair<File, Integer> p : args){
+                    calc(p.first(), p.second());
+                }
+                return null;
             }
-            return null;
+            catch(Exception e) {
+                return e;
+            }
         }
     
         void calc(File root, Integer view) {
             ArrayDeque<File> stack = new ArrayDeque<File>();
             stack.push(root);
 
-            try {
-                long size = 0;
-                while(!stack.isEmpty()) {
-                    File f = stack.pop();
-                    if (f.isFile()) {
-                        size += f.length();
-                    }
-                    else {
-                        for (File g : f.listFiles()) {
+            long size = 0;
+            while(!stack.isEmpty()) {
+                File f = stack.pop();
+                if (!f.exists()) {
+                    continue;
+                }
+                if (f.isFile()) {
+                    size += f.length();
+                }
+                else {
+                    File[] list = f.listFiles();
+                    if (list != null ) {
+                        for (File g : list) {
                             stack.push(g);
                         }
                     }
                 }
-
-                final Long mb = size / BYTES_PER_MB;
-                final TextView text = (TextView) getView().findViewById(view);
-                if (text != null) {
-                    text.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            text.setText(String.format("%d MB", mb));
-                        }
-                    });
-                }
             }
-            catch(Exception e) {
-                //TODO: catch and show in dialog
-                throw new AndroidRuntimeException(e);
+
+            final Long mb = size / BYTES_PER_MB;
+            final TextView text = (TextView) getView().findViewById(view);
+            if (text != null) {
+                text.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        text.setText(String.format("%d MB", mb));
+                    }
+                });
             }
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Exception result) {
             progress.setVisibility(View.INVISIBLE);
+
+            if (result != null) {
+                ErrorDialog.show(result, getActivity());
+            }
         }
 
     }

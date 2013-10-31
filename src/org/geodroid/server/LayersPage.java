@@ -175,20 +175,20 @@ public class LayersPage extends PageFragment {
 
         @Override
         protected Exception doInBackground(Tag... args) {
-            Tag t = args[0];
-            Registry r = getDataRegistry();
-
-            Predicate<Dataset> filter = new DatasetType(t);
-            
-            switch(t) {
-            case TILE:
-            case ALL:
-                break;
-            default:
-                filter = Predicates.and(filter, new VectorType(t));
-            }
-
             try {
+                Tag t = args[0];
+                Registry r = getDataRegistry();
+    
+                Predicate<Dataset> filter = new DatasetType(t);
+                
+                switch(t) {
+                case TILE:
+                case ALL:
+                    break;
+                default:
+                    filter = Predicates.and(filter, new VectorType(t));
+                }
+
                 new DatasetVisitor(filter) {
                     protected void visit(Dataset data, DataRef<?> parent) throws IOException {
 
@@ -269,7 +269,9 @@ public class LayersPage extends PageFragment {
         protected void onPostExecute(Exception result) {
             progress.setVisibility(View.INVISIBLE);
 
-            //TODO: show error if it occured
+            if (result != null) {
+                ErrorDialog.show(result, getActivity());
+            }
         }
     }
     

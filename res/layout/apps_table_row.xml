@@ -12,11 +12,8 @@
      <TextView android:id="@+id/apps.table.url"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:clickable="true"
-         android:focusable="true"
-         android:focusableInTouchMode="true"
-         android:background="@drawable/text_clickable"
-         style="@style/TextSmallBold"/>
+         android:autoLink="web"
+         style="@style/TextMedium"/>
      <TextView android:id="@+id/apps.table.dir"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"

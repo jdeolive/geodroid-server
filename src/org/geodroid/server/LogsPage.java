@@ -1,16 +1,12 @@
 package org.geodroid.server;
 
-import static org.geodroid.server.GeodroidServer.TAG;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +52,7 @@ public class LogsPage extends PageFragment implements OnItemSelectedListener {
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    class LogLoader extends AsyncTask<Object, Void, String> {
-
-        
+    class LogLoader extends AsyncTask<Object, Void, Object> {
 
         @Override
         protected void onPreExecute() {
@@ -66,11 +60,12 @@ public class LogsPage extends PageFragment implements OnItemSelectedListener {
         }
 
         @Override
-        protected String doInBackground(Object... args) {
-            char level = args[0].toString().charAt(0);
-
-            StringBuilder buf = new StringBuilder();
+        protected Object doInBackground(Object... args) {
             try {
+                char level = args[0].toString().charAt(0);
+
+                StringBuilder buf = new StringBuilder();
+
                 Process p = Runtime.getRuntime().exec(String.format(
                     "logcat -s -d GeodroidServer:%s org.jeo.nano.NanoServer:%s", level, level));
                 
@@ -82,18 +77,24 @@ public class LogsPage extends PageFragment implements OnItemSelectedListener {
                 }
 
                 return buf.toString();
-            } catch (IOException e) {
-                Log.wtf(TAG, "error reading logs", e);
-                return null;
+            } catch (Exception e) {
+                return e;
             }
         }
     
         @Override
-        protected void onPostExecute(String result) {
-            TextView text = (TextView) getView().findViewById(R.id.logs_log_contents);
-            text.setText(result);
-
+        protected void onPostExecute(Object result) {
             progress.setVisibility(View.INVISIBLE);
+
+            if (result instanceof Exception) {
+                ErrorDialog.show((Exception)result, getActivity());
+            }
+            else if (result != null) {
+                TextView text = (TextView) getView().findViewById(R.id.logs_log_contents);
+                text.setText(result.toString());
+            }
+
+            
         }
     }
 }

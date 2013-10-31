@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,29 +46,37 @@ public class AppsPage extends PageFragment {
         @Override
         protected void onPostExecute(Exception result) {
             progress.setVisibility(View.INVISIBLE);
+            if (result != null) {
+                ErrorDialog.show(result, getActivity());
+            }
         }
 
         @Override
         protected Exception doInBackground(File... appRoots) {
-            for (File appRoot : appRoots) {
-                for (final File appDir : appRoot.listFiles()) {
-                    if (!appDir.isDirectory()) {
-                        continue;
-                    }
-
-                    getView().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            createTableRow(appDir);
+            try {
+                for (File appRoot : appRoots) {
+                    for (final File appDir : appRoot.listFiles()) {
+                        if (!appDir.isDirectory()) {
+                            continue;
                         }
-                    });
+    
+                        getView().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                createTableRow(appDir);
+                            }
+                        });
+                    }
                 }
+            }
+            catch(Exception e) {
+                return e;
             }
             return null;
         }
     }
 
-    void createTableRow(final File appDir) {
+    void createTableRow(File appDir) {
         ViewGroup table = (ViewGroup) getView().findViewById(R.id.apps_table);
         if (table == null) {
             return;
@@ -79,14 +88,15 @@ public class AppsPage extends PageFragment {
         TextView titleText = (TextView) row.findViewById(R.id.apps_table_title);
         titleText.setText(appDir.getName());
 
+        Preferences p = new Preferences(getActivity());
+        final String url = String.format("http://localhost:%d/apps/%s/", p.getPort(), appDir.getName());
+
         TextView urlText = (TextView) row.findViewById(R.id.apps_table_url);
-        urlText.setText("http://localhost:8000/apps/" + appDir.getName());
+        urlText.setText(Html.fromHtml(String.format("<a href='%s'>%s</a>", url, url)));
         urlText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Preferences p = new Preferences(getActivity());
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(
-                    String.format("http://localhost:%d/apps/%s/", p.getPort(), appDir.getName())));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
             }
         });
