@@ -179,11 +179,13 @@ public class LayersPage extends PageFragment {
                 Tag t = args[0];
                 Registry r = getDataRegistry();
     
-                Predicate<Dataset> filter = new DatasetType(t);
-                
+                Predicate<Dataset> filter = Predicates.alwaysTrue();
+
                 switch(t) {
-                case TILE:
                 case ALL:
+                    break;
+                case TILE:
+                    filter = Predicates.and(filter, new DatasetType(t));
                     break;
                 default:
                     filter = Predicates.and(filter, new VectorType(t));
