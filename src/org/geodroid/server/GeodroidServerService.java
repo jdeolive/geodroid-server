@@ -56,6 +56,7 @@ public class GeodroidServerService extends Service {
             (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
         List<Handler> handlers = new ArrayList<Handler>();
+        handlers.add(new RootHandler(this));
         handlers.add(new CurrentLocationHandler(locMgr));
         handlers.add(new TileHandler());
         handlers.add(new FeatureHandler( new MapRenderer() {

@@ -116,8 +116,6 @@ public class GeodroidServer extends GeoApplication {
 
         if (srvRunning) {
             // try to connect
-            
-
             StringBuilder sb = new StringBuilder("http://localhost:");
             sb.append(getPort());
             sb.append("/ping");
