@@ -34,7 +34,11 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="org.geodroid.server.GeodroidServerService" />
+        <service android:name="org.geodroid.server.GeodroidServerService">
+            <intent-filter>
+                <action android:name="org.geodroid.server.GeodroidServerService"/>
+            </intent-filter>
+        </service>
 
         <activity
             android:name="org.geodroid.server.GeodroidServerActivity"
