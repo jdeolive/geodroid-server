@@ -205,6 +205,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
     protected void onDestroy() {
         reg.close();
         GeodroidServer.get(this).unbind(this);
+        super.onDestroy();
     }
 
     GeodroidServer app() {
