@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.geodroid.app.GeoApplication;
 import org.jeo.android.graphics.Renderer;
-import org.jeo.data.Registry;
+import org.jeo.data.DataRepository;
 import org.jeo.map.Map;
 import org.jeo.map.View;
 import org.jeo.nano.AppsHandler;
@@ -42,7 +42,7 @@ import android.util.Log;
 
 public class GeodroidServerService extends Service {
 
-    Registry reg;
+    DataRepository repo;
     NanoServer server;
 
     @Override
@@ -78,8 +78,8 @@ public class GeodroidServerService extends Service {
         handlers.add(new AppsHandler(appsDir));
 
         try {
-            reg = GeoApplication.get(this).createDataRegistry();
-            server = new NanoServer(p.getPort(), wwwDir, p.getNumThreads(), reg, handlers);
+            repo = GeoApplication.get(this).createDataRepository();
+            server = new NanoServer(p.getPort(), wwwDir, p.getNumThreads(), repo, handlers);
         }
         catch(IOException e) {
             Log.wtf(TAG, "NanoHTTPD did not start", e);
@@ -147,7 +147,7 @@ public class GeodroidServerService extends Service {
             server.stop();
         }
 
-        reg.close();
+        repo.close();
 
         Log.i(TAG, "GeoDroid Server stopped");
         notifyStopped();

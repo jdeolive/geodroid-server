@@ -1,6 +1,6 @@
 package org.geodroid.server;
 
-import org.jeo.data.Registry;
+import org.jeo.data.DataRepository;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,7 +18,7 @@ import android.view.ViewGroup;
  */
 public abstract class PageFragment extends Fragment {
 
-    Registry reg;
+    DataRepository repo;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -33,7 +33,7 @@ public abstract class PageFragment extends Fragment {
         Activity a = getActivity();
         if (a instanceof DetailActivity) {
             //means operating in handset mode, need to manage our own data registry
-            reg = GeodroidServer.get(a).createDataRegistry();
+            repo = GeodroidServer.get(a).createDataRepository();
         }
     }
 
@@ -51,14 +51,14 @@ public abstract class PageFragment extends Fragment {
         return rootView;
     }
 
-    protected Registry getDataRegistry() {
-        if (reg != null) {
-            return reg;
+    protected DataRepository getDataRepository() {
+        if (repo != null) {
+            return repo;
         }
 
         Activity a = getActivity();
                 if (a instanceof GeodroidServerActivity) {
-            return ((GeodroidServerActivity) a).getDataRegistry();
+            return ((GeodroidServerActivity) a).getDataRepository();
         }
         else {
             throw new AndroidRuntimeException("Could not find GeodroidServerActivity in activity stack");

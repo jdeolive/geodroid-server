@@ -10,8 +10,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.geodroid.app.GeoApplication;
-import org.geodroid.app.GeoDataRegistry;
-import org.jeo.data.Registry;
+import org.geodroid.app.GeoDataRepository;
+import org.jeo.data.DataRepository;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -75,13 +75,13 @@ public class GeodroidServer extends GeoApplication {
     }
 
     @Override
-    public Registry createDataRegistry() {
+    public DataRepository createDataRepository() {
         Preferences p = new Preferences(this);
         File dataDir = p.getDataDirectory();
         if (!dataDir.exists()) {
             dataDir.mkdirs();
         }
-        return new GeoDataRegistry(dataDir, null);
+        return new GeoDataRepository(dataDir, null);
     }
 
     public void start() {

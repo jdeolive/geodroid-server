@@ -1,13 +1,16 @@
 package org.geodroid.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.jeo.data.DataRef;
+import org.jeo.data.DataRepository;
 import org.jeo.data.Dataset;
-import org.jeo.data.Registry;
+import org.jeo.data.DatasetHandle;
 import org.jeo.data.TileDataset;
 import org.jeo.data.VectorDataset;
 import org.jeo.data.Workspace;
+import org.jeo.data.WorkspaceHandle;
 import org.jeo.feature.Field;
 import org.jeo.feature.Schema;
 import org.jeo.geom.Geom;
@@ -16,6 +19,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,7 +181,7 @@ public class LayersPage extends PageFragment {
         protected Exception doInBackground(Tag... args) {
             try {
                 Tag t = args[0];
-                Registry r = getDataRegistry();
+                DataRepository r = getDataRepository();
     
                 Predicate<Dataset> filter = Predicates.alwaysTrue();
 
@@ -192,75 +196,84 @@ public class LayersPage extends PageFragment {
                 }
 
                 new DatasetVisitor(filter) {
-                    protected void visit(Dataset data, DataRef<?> parent) throws IOException {
+                    protected void error(Exception e, WorkspaceHandle h) {
+                        Log.w(GeodroidServer.TAG, "Error loading workspace: " + h.getName(), e);
+                    };
 
-                        final String name = data.getName();
-                        final String title = data.getTitle();
-                        final int icon;
-
-                        if (data instanceof VectorDataset) {
-                            //TODO: icons for geometry and collection
-                            Schema schema = ((VectorDataset) data).schema();
-                            Field geom = schema.geometry();
-                            if (geom != null) {
-                                switch(Geom.Type.from(geom.getType())) {
-                                case POINT:
-                                case MULTIPOINT:
-                                    icon = R.drawable.ic_point_white;
-                                    break;
-                                case LINESTRING:
-                                case MULTILINESTRING:
-                                    icon = R.drawable.ic_line_white;
-                                    break;
-                                case POLYGON:
-                                case MULTIPOLYGON:
-                                    icon = R.drawable.ic_poly_white;
-                                    break;
-                                    
-                                default:
+                    protected void visit(DatasetHandle ref, WorkspaceHandle parent) throws IOException {
+                        try {
+                            Dataset data = ref.resolve();
+                            final String name = data.getName();
+                            final String title = data.getTitle();
+                            final int icon;
+    
+                            if (data instanceof VectorDataset) {
+                                //TODO: icons for geometry and collection
+                                Schema schema = ((VectorDataset) data).schema();
+                                Field geom = schema.geometry();
+                                if (geom != null) {
+                                    switch(Geom.Type.from(geom.getType())) {
+                                    case POINT:
+                                    case MULTIPOINT:
+                                        icon = R.drawable.ic_point_white;
+                                        break;
+                                    case LINESTRING:
+                                    case MULTILINESTRING:
+                                        icon = R.drawable.ic_line_white;
+                                        break;
+                                    case POLYGON:
+                                    case MULTIPOLYGON:
+                                        icon = R.drawable.ic_poly_white;
+                                        break;
+                                        
+                                    default:
+                                        icon = -1;
+                                    }
+                                }
+                                else {
+                                    //TODO: icon for vector data with no geometry
                                     icon = -1;
                                 }
                             }
+                            else if (data instanceof TileDataset) {
+                                icon = R.drawable.ic_tile_white;
+                            }
                             else {
-                                //TODO: icon for vector data with no geometry
                                 icon = -1;
                             }
-                        }
-                        else if (data instanceof TileDataset) {
-                            icon = R.drawable.ic_tile_white;
-                        }
-                        else {
-                            icon = -1;
-                        }
-
-                        Preferences pref = getPreferences();
-
-                        StringBuilder buf = new StringBuilder("http://localhost:");
-                        buf.append(pref.getPort());
-
-                        if (data instanceof TileDataset) {
-                            buf.append("/tiles");
-                        }
-                        else {
-                            buf.append("/features");
-                        }
-
-                        if (parent != null) {
-                            buf.append("/").append(parent.getName());
-                        }
-
-                        buf.append("/").append(data.getName()).append(".html");
-
-                        final String prevLink = buf.toString();
-                        getView().post(new Runnable() {
-                            public void run() {
-                                createTableRow(name, title, icon, prevLink, table);
+    
+                            Preferences pref = getPreferences();
+    
+                            StringBuilder buf = new StringBuilder("http://localhost:");
+                            buf.append(pref.getPort());
+    
+                            if (data instanceof TileDataset) {
+                                buf.append("/tiles");
                             }
-                        });
+                            else {
+                                buf.append("/features");
+                            }
+    
+                            if (parent != null) {
+                                buf.append("/").append(parent.getName());
+                            }
+    
+                            buf.append("/").append(data.getName()).append(".html");
+    
+                            final String prevLink = buf.toString();
+                            getView().post(new Runnable() {
+                                public void run() {
+                                    createTableRow(name, title, icon, prevLink, table);
+                                }
+                            });
+                        }
+                        catch(Exception e) {
+                            Log.w(GeodroidServer.TAG, "Error loading dataset: " + ref.getName(), e);
+                        }
                     };
                 }.process(r);
             }
-            catch(IOException e) {
+            catch(Exception e) {
                 return e;
             }
 
@@ -277,47 +290,33 @@ public class LayersPage extends PageFragment {
         }
     }
     
-    static class DatasetVisitor {
-        Predicate<Dataset> filter;
+    static abstract class DatasetVisitor {
+        protected Predicate<Dataset> filter;
 
         public DatasetVisitor(Predicate<Dataset> filter) {
             this.filter = filter;
         }
 
-        protected void visit(Dataset dataset, DataRef<?> ref) throws IOException {
+        protected void error(Exception e, WorkspaceHandle h) {
         }
 
-        public void process(Registry reg) throws IOException {
-            for (DataRef<?> ref : reg.list()) {
-                if (Dataset.class.isAssignableFrom(ref.getType())) {
-                    Dataset data = (Dataset) ref.resolve();
-                    try {
-                        if (filter.apply(data)) {
-                            visit(data, null);
-                        }
-                    }
-                    finally {
-                        data.close();
-                    }
-                }
-                else if (Workspace.class.isAssignableFrom(ref.getType())){
+        protected abstract void visit(DatasetHandle dataset, WorkspaceHandle parent) throws IOException;
+
+        public void process(DataRepository reg) throws IOException {
+            for (WorkspaceHandle ref : reg.list()) {
+                try {
                     Workspace ws = (Workspace) ref.resolve();
                     try {
-                        for (DataRef<Dataset> d : ws.list()) {
-                            Dataset data = d.resolve();
-                            try {
-                                if (filter.apply(data)) {
-                                    visit(data, ref);
-                                }
-                            }
-                            finally {
-                                data.close();
-                            }
+                        for (DatasetHandle d : ws.list()) {
+                            visit(d, ref);
                         }
                     }
                     finally {
                         ws.close();
                     }
+                }
+                catch(Exception e) {
+                    error(e, ref);
                 }
             }
         }

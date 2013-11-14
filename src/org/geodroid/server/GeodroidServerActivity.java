@@ -1,7 +1,7 @@
 package org.geodroid.server;
 
 import org.geodroid.server.GeodroidServer.Status;
-import org.jeo.data.Registry;
+import org.jeo.data.DataRepository;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,7 +28,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
     boolean mTwoPane;
 
     /** data registry */
-    Registry reg;
+    DataRepository repo;
 
     Button status;
 
@@ -55,7 +55,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
         }
     
         GeodroidServer app = app();
-        reg = app.createDataRegistry();
+        repo = app.createDataRepository();
         app.bind(this);
 
         // TODO: If exposing deep links into your app, handle intents here.
@@ -197,13 +197,13 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
 //    }
 
 
-    public Registry getDataRegistry() {
-        return reg;
+    public DataRepository getDataRepository() {
+        return repo;
     }
 
     @Override
     protected void onDestroy() {
-        reg.close();
+        repo.close();
         GeodroidServer.get(this).unbind(this);
         super.onDestroy();
     }
