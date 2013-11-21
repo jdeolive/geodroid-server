@@ -57,6 +57,7 @@ public class LayersPage extends PageFragment {
     }
 
     View progress;
+    private LoadLayers loadTask;
 
     @Override
     protected void doCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +84,15 @@ public class LayersPage extends PageFragment {
             TextView tv = (TextView) tw.getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(getResources().getColorStateList(R.drawable.tab_text));
         }
+    }
+
+    @Override
+    public void onPause() {
+        if (loadTask != null) {
+            loadTask.cancel(true);
+            loadTask = null;
+        }
+        super.onPause();
     }
 
     void newTab(TabHost tabs, Tag tag, final ViewGroup contentRoot) {
@@ -120,8 +130,8 @@ public class LayersPage extends PageFragment {
             inflater.inflate(R.layout.layers_table, root).findViewById(R.id.layers_table);
 
         // fire off a background task to process the registry for datasets/layers
-
-        new LoadLayers(table).execute(Tag.valueOf(tag));
+        loadTask = new LoadLayers(table);
+        loadTask.execute(Tag.valueOf(tag));
         return table;
 
     }
@@ -202,6 +212,8 @@ public class LayersPage extends PageFragment {
 
                     protected void visit(DatasetHandle ref, WorkspaceHandle parent) throws IOException {
                         try {
+                            if (isCancelled()) return;
+
                             Dataset data = ref.resolve();
                             final String name = data.getName();
                             final String title = data.getTitle();
@@ -287,6 +299,8 @@ public class LayersPage extends PageFragment {
             if (result != null) {
                 ErrorDialog.show(result, getActivity());
             }
+
+            loadTask = null;
         }
     }
     
