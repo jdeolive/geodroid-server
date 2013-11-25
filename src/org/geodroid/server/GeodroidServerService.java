@@ -2,7 +2,6 @@ package org.geodroid.server;
 
 import static org.geodroid.server.GeodroidServer.TAG;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -49,8 +48,7 @@ public class GeodroidServerService extends Service {
     public void onCreate() {
         Preferences p = new Preferences(this);
 
-        File appsDir = initDir(p.getAppsDirectory());
-        File wwwDir = initDir(p.getWebDirectory());
+        FilesHelper.ensureFilesExist(this);
 
         LocationManager locMgr = 
             (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
@@ -75,11 +73,11 @@ public class GeodroidServerService extends Service {
         }));
 
         handlers.add(new StyleHandler());
-        handlers.add(new AppsHandler(appsDir));
+        handlers.add(new AppsHandler(p.getAppsDirectory()));
 
         try {
             repo = GeoApplication.get(this).createDataRepository();
-            server = new NanoServer(p.getPort(), wwwDir, p.getNumThreads(), repo, handlers);
+            server = new NanoServer(p.getPort(), p.getWebDirectory(), p.getNumThreads(), repo, handlers);
         }
         catch(IOException e) {
             Log.wtf(TAG, "NanoHTTPD did not start", e);
@@ -87,20 +85,6 @@ public class GeodroidServerService extends Service {
 
         Log.i(TAG, "GeoDroid Server started");
         notifyStarted();
-    }
-
-    File initDir(File dir) {
-        if (!dir.exists()) {
-            try {
-                if (dir.mkdir()) {
-                    throw new IOException("unable to create directory" + dir.getPath());
-                }
-            }
-            catch(IOException e) {
-                Log.w(TAG, "Unable to create directory", e);
-            }
-        }
-        return dir;
     }
 
     void notifyStarted() {

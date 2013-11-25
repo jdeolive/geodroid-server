@@ -58,6 +58,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
         repo = app.createDataRepository();
         app.bind(this);
 
+        FilesHelper.ensureFilesExist(this);
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
