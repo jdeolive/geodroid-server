@@ -7,6 +7,7 @@ import java.util.List;
 import org.jeo.data.DataRepository;
 import org.jeo.data.Dataset;
 import org.jeo.data.DatasetHandle;
+import org.jeo.data.Handle;
 import org.jeo.data.TileDataset;
 import org.jeo.data.VectorDataset;
 import org.jeo.data.Workspace;
@@ -206,11 +207,11 @@ public class LayersPage extends PageFragment {
                 }
 
                 new DatasetVisitor(filter) {
-                    protected void error(Exception e, WorkspaceHandle h) {
+                    protected void error(Exception e, Handle<Workspace> h) {
                         Log.w(GeodroidServer.TAG, "Error loading workspace: " + h.getName(), e);
                     };
 
-                    protected void visit(DatasetHandle ref, WorkspaceHandle parent) throws IOException {
+                    protected void visit(DatasetHandle ref, Handle<Workspace> parent) throws IOException {
                         try {
                             if (isCancelled()) return;
 
@@ -311,22 +312,25 @@ public class LayersPage extends PageFragment {
             this.filter = filter;
         }
 
-        protected void error(Exception e, WorkspaceHandle h) {
+        protected void error(Exception e, Handle<Workspace> h) {
         }
 
-        protected abstract void visit(DatasetHandle dataset, WorkspaceHandle parent) throws IOException;
+        protected abstract void visit(DatasetHandle dataset, Handle<Workspace> parent) throws IOException;
 
         public void process(DataRepository reg) throws IOException {
-            for (WorkspaceHandle ref : reg.list()) {
+            for (Handle ref : reg.list()) {
                 try {
-                    Workspace ws = (Workspace) ref.resolve();
-                    try {
-                        for (DatasetHandle d : ws.list()) {
-                            visit(d, ref);
+                    if (Workspace.class.isAssignableFrom(ref.getType())) {
+                        Workspace ws = (Workspace) ref.resolve();
+
+                        try {
+                            for (DatasetHandle d : ws.list()) {
+                                visit(d, ref);
+                            }
                         }
-                    }
-                    finally {
-                        ws.close();
+                        finally {
+                            ws.close();
+                        }
                     }
                 }
                 catch(Exception e) {
