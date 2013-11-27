@@ -42,8 +42,6 @@ public class FilesHelper {
             catch(IOException e) {
                 Log.w(TAG, "Unable to create directory", e);
             }
-        } else {
-            Log.i(TAG, "Already exists: " + dir.getAbsolutePath());
         }
         return dir;
     }
