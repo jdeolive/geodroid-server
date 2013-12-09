@@ -1,17 +1,13 @@
 package org.geodroid.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.jeo.data.DataRepository;
+import org.jeo.data.DataRepositoryView;
 import org.jeo.data.Dataset;
-import org.jeo.data.DatasetHandle;
 import org.jeo.data.Handle;
 import org.jeo.data.TileDataset;
 import org.jeo.data.VectorDataset;
 import org.jeo.data.Workspace;
-import org.jeo.data.WorkspaceHandle;
 import org.jeo.feature.Field;
 import org.jeo.feature.Schema;
 import org.jeo.geom.Geom;
@@ -192,7 +188,7 @@ public class LayersPage extends PageFragment {
         protected Exception doInBackground(Tag... args) {
             try {
                 Tag t = args[0];
-                DataRepository r = getDataRepository();
+                DataRepositoryView r = getDataRepository();
     
                 Predicate<Dataset> filter = Predicates.alwaysTrue();
 
@@ -211,7 +207,7 @@ public class LayersPage extends PageFragment {
                         Log.w(GeodroidServer.TAG, "Error loading workspace: " + h.getName(), e);
                     };
 
-                    protected void visit(DatasetHandle ref, Handle<Workspace> parent) throws IOException {
+                    protected void visit(Handle<Dataset> ref, Handle<Workspace> parent) throws IOException {
                         try {
                             if (isCancelled()) return;
 
@@ -315,16 +311,16 @@ public class LayersPage extends PageFragment {
         protected void error(Exception e, Handle<Workspace> h) {
         }
 
-        protected abstract void visit(DatasetHandle dataset, Handle<Workspace> parent) throws IOException;
+        protected abstract void visit(Handle<Dataset> dataset, Handle<Workspace> parent) throws IOException;
 
-        public void process(DataRepository reg) throws IOException {
+        public void process(DataRepositoryView reg) throws IOException {
             for (Handle ref : reg.list()) {
                 try {
                     if (Workspace.class.isAssignableFrom(ref.getType())) {
                         Workspace ws = (Workspace) ref.resolve();
 
                         try {
-                            for (DatasetHandle d : ws.list()) {
+                            for (Handle<Dataset> d : ws.list()) {
                                 visit(d, ref);
                             }
                         }

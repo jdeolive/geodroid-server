@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.geodroid.app.GeoApplication;
 import org.geodroid.app.GeoDataRepository;
-import org.jeo.data.DataRepository;
+import org.jeo.data.DataRepositoryView;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -75,13 +75,13 @@ public class GeodroidServer extends GeoApplication {
     }
 
     @Override
-    public DataRepository createDataRepository() {
+    public DataRepositoryView createDataRepository() {
         Preferences p = new Preferences(this);
         File dataDir = p.getDataDirectory();
         if (!dataDir.exists()) {
             dataDir.mkdirs();
         }
-        return new GeoDataRepository(dataDir, null);
+        return GeoDataRepository.create(dataDir, null);
     }
 
     public void start() {

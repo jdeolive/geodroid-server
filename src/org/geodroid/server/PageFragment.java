@@ -1,6 +1,6 @@
 package org.geodroid.server;
 
-import org.jeo.data.DataRepository;
+import org.jeo.data.DataRepositoryView;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,7 +18,7 @@ import android.view.ViewGroup;
  */
 public abstract class PageFragment extends Fragment {
 
-    DataRepository repo;
+    DataRepositoryView repo;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -51,7 +51,7 @@ public abstract class PageFragment extends Fragment {
         return rootView;
     }
 
-    protected DataRepository getDataRepository() {
+    protected DataRepositoryView getDataRepository() {
         if (repo != null) {
             return repo;
         }

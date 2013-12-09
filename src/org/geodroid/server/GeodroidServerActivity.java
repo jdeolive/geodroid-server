@@ -1,7 +1,7 @@
 package org.geodroid.server;
 
 import org.geodroid.server.GeodroidServer.Status;
-import org.jeo.data.DataRepository;
+import org.jeo.data.DataRepositoryView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,7 +28,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
     boolean mTwoPane;
 
     /** data registry */
-    DataRepository repo;
+    DataRepositoryView repo;
 
     Button status;
 
@@ -198,7 +198,7 @@ public class GeodroidServerActivity extends Activity implements NavFragment.Call
 //    }
 
 
-    public DataRepository getDataRepository() {
+    public DataRepositoryView getDataRepository() {
         return repo;
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.geodroid.app.GeoApplication;
 import org.jeo.android.graphics.Renderer;
-import org.jeo.data.DataRepository;
+import org.jeo.data.DataRepositoryView;
 import org.jeo.map.Map;
 import org.jeo.map.View;
 import org.jeo.nano.AppsHandler;
@@ -41,7 +41,7 @@ import android.util.Log;
 
 public class GeodroidServerService extends Service {
 
-    DataRepository repo;
+    DataRepositoryView repo;
     NanoServer server;
 
     @Override
