@@ -25,9 +25,32 @@
       <artifactId>jeo-nano</artifactId>
       <version>${jeo.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.opengeo</groupId>
+      <artifactId>geodroid</artifactId>
+      <version>${geodroid.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>android</artifactId>
+      <version>4.1.1.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   
   <build>
+    <resources>
+        <resource>
+            <directory>gen</directory>
+        </resource>
+    </resources>
+    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <!-- initialize git revision info -->
       <plugin>
@@ -163,6 +186,7 @@
 
   <properties>
     <jeo.version>0-SNAPSHOT</jeo.version>
+    <geodroid.version>0-SNAPSHOT</geodroid.version>
     <build.mode>debug</build.mode>
     <maven.build.timestamp.format>E MMM dd, yyyy @ HH:mm z</maven.build.timestamp.format>
     <build.prettydate>${maven.build.timestamp}</build.prettydate>
