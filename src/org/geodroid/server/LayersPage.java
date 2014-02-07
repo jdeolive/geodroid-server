@@ -159,6 +159,7 @@ public class LayersPage extends PageFragment {
         prevImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GeodroidServer.get(getActivity()).start();
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(prevLink)));
             }
         });
