@@ -10,7 +10,6 @@ import java.util.List;
 import org.geodroid.app.GeoApplication;
 import org.jeo.android.graphics.Renderer;
 import org.jeo.data.DataRepositoryView;
-import org.jeo.map.Map;
 import org.jeo.map.View;
 import org.jeo.nano.AppsHandler;
 import org.jeo.nano.FeatureHandler;
@@ -60,21 +59,7 @@ public class GeodroidServerService extends Service {
         handlers.add(new RootHandler(this));
         handlers.add(new CurrentLocationHandler(locMgr));
         handlers.add(new TileHandler());
-        handlers.add(new FeatureHandler( new MapRenderer() {
-            @Override
-            public void render(Map map, OutputStream out) throws IOException {
-                View view = map.getView();
-                final Bitmap img = 
-                    Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-
-                Renderer r = new Renderer(new Canvas(img));
-                r.init(view);
-                r.render();
-
-                img.compress(Bitmap.CompressFormat.PNG, 90, out);
-            }
-        }));
-
+        handlers.add(new FeatureHandler());
         handlers.add(new StyleHandler());
         handlers.add(new AppsHandler(p.getAppsDirectory()));
 
@@ -119,6 +104,20 @@ public class GeodroidServerService extends Service {
         catch(IOException e) {
             Log.wtf(TAG, "NanoHTTPD did not start", e);
         }
+
+        server.setRenderer(new MapRenderer() {
+            @Override
+            public void render(View view, OutputStream out) throws IOException {
+                final Bitmap img =
+                    Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+
+                Renderer r = new Renderer(new Canvas(img));
+                r.init(view);
+                r.render();
+
+                img.compress(Bitmap.CompressFormat.PNG, 90, out);
+            }
+        });
     }
 
     private void notifyStarted() {
