@@ -70,7 +70,20 @@ public class GeodroidServerService extends Service {
 
         try {
             repo = GeoApplication.get(this).createDataRepository();
-            server = new NanoServer(p.getPort(), p.getWebDirectory(), p.getNumThreads(), repo, handlers) {
+            server = new NanoServer(p.getPort(), p.getWebDirectory(), p.getNumThreads(), repo, handlers,
+                new MapRenderer() {
+                    @Override
+                    public void render(View view, OutputStream out) throws IOException {
+                        final Bitmap img =
+                                Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+
+                        Renderer r = new Renderer(new Canvas(img));
+                        r.init(view, null);
+                        r.render(out);
+
+                        img.compress(Bitmap.CompressFormat.PNG, 90, out);
+                    }
+                }) {
 
                 @Override
                 protected void notifyStarted() {
@@ -104,20 +117,6 @@ public class GeodroidServerService extends Service {
         catch(IOException e) {
             Log.wtf(TAG, "NanoHTTPD did not start", e);
         }
-
-        server.setRenderer(new MapRenderer() {
-            @Override
-            public void render(View view, OutputStream out) throws IOException {
-                final Bitmap img =
-                    Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-
-                Renderer r = new Renderer(new Canvas(img));
-                r.init(view);
-                r.render();
-
-                img.compress(Bitmap.CompressFormat.PNG, 90, out);
-            }
-        });
     }
 
     private void notifyStarted() {
