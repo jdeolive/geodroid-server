@@ -5,16 +5,19 @@ import static org.geodroid.server.GeodroidServer.TAG;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import com.google.common.collect.Iterators;
 import org.geodroid.app.GeoApplication;
-import org.jeo.android.graphics.Renderer;
+import org.jeo.android.graphics.Android2D;
 import org.jeo.data.DataRepositoryView;
 import org.jeo.map.View;
+import org.jeo.map.render.RendererFactory;
+import org.jeo.map.render.RendererRegistry;
 import org.jeo.nano.AppsHandler;
 import org.jeo.nano.FeatureHandler;
 import org.jeo.nano.Handler;
-import org.jeo.nano.MapRenderer;
 import org.jeo.nano.NanoServer;
 import org.jeo.nano.StyleHandler;
 import org.jeo.nano.TileHandler;
@@ -71,17 +74,10 @@ public class GeodroidServerService extends Service {
         try {
             repo = GeoApplication.get(this).createDataRepository();
             server = new NanoServer(p.getPort(), p.getWebDirectory(), p.getNumThreads(), repo, handlers,
-                new MapRenderer() {
+                new RendererRegistry() {
                     @Override
-                    public void render(View view, OutputStream out) throws IOException {
-                        final Bitmap img =
-                                Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-
-                        Renderer r = new Renderer(new Canvas(img));
-                        r.init(view, null);
-                        r.render(out);
-
-                        img.compress(Bitmap.CompressFormat.PNG, 90, out);
+                    public Iterator<RendererFactory<?>> list() {
+                        return (Iterator) Iterators.singletonIterator(new Android2D());
                     }
                 }) {
 
