@@ -3,16 +3,13 @@ package org.geodroid.server;
 import static org.geodroid.server.GeodroidServer.TAG;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.common.collect.Iterators;
 import org.geodroid.app.GeoApplication;
 import org.jeo.android.graphics.Android2D;
 import org.jeo.data.DataRepositoryView;
-import org.jeo.map.View;
 import org.jeo.map.render.RendererFactory;
 import org.jeo.map.render.RendererRegistry;
 import org.jeo.nano.AppsHandler;
@@ -29,8 +26,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Binder;
@@ -41,8 +36,12 @@ import android.os.IBinder;
 //import android.support.v4.app.NotificationCompat;
 //import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import java.util.Arrays;
 import java.util.Properties;
 import org.jeo.nano.NanoHTTPD;
+import org.jeo.nano.WMSHandler;
+import org.jeo.nano.WMTSHandler;
+import org.jeo.svg.SVG;
 
 public class GeodroidServerService extends Service {
 
@@ -64,6 +63,8 @@ public class GeodroidServerService extends Service {
         handlers.add(new TileHandler());
         handlers.add(new FeatureHandler());
         handlers.add(new StyleHandler());
+        handlers.add(new WMSHandler());
+        handlers.add(new WMTSHandler());
         handlers.add(new AppsHandler(p.getAppsDirectory()));
 
         // to enable tracing, set the tag level to DEBUG:
@@ -75,9 +76,13 @@ public class GeodroidServerService extends Service {
             repo = GeoApplication.get(this).createDataRepository();
             server = new NanoServer(p.getPort(), p.getWebDirectory(), p.getNumThreads(), repo, handlers,
                 new RendererRegistry() {
+                    List<RendererFactory> factories = (List) Arrays.asList(
+                        new Android2D(),
+                        new SVG()
+                    );
                     @Override
                     public Iterator<RendererFactory<?>> list() {
-                        return (Iterator) Iterators.singletonIterator(new Android2D());
+                        return (Iterator) factories.iterator();
                     }
                 }) {
 
