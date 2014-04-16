@@ -34,16 +34,16 @@ background-color: #eee;
 }
 
 .olControlEditingToolbar div[class*="app-control-add"] {
-background-image: url('img/bullet_orange_add.png');
+background-image: url('../shared/img/bullet_orange_add.png');
 }
 .olControlEditingToolbar div[class*="app-control-del"] {
-background-image: url('img/bullet_orange_delete.png');
+background-image: url('../shared/img/bullet_orange_delete.png');
 }
 .olControlEditingToolbar div[class*="app-control-edit"] {
-background-image: url('img/pencil.png');
+background-image: url('../shared/img/pencil.png');
 }
 .olControlEditingToolbar div[class*="app-control-pan"] {
-background-image: url('img/pan.png');
+background-image: url('../shared/img/pan.png');
 }
 
 .olControlEditingToolbar div[class*="app-control-hide"] {
@@ -51,11 +51,11 @@ display: none;
 }
 
 .olControlEditingToolbar .appControlSelectItemInactive {
-background-image: url(ol/img/select_tool.png);
+background-image: url(../shared/ol/img/select_tool.png);
 background-position: -1px -1px;
 }
 .olControlEditingToolbar .appControlSelectItemActive {
-background-image: url(ol/img/select_tool.png);
+background-image: url(../shared/ol/img/select_tool.png);
 background-position: -1px -24px;
 }
 
@@ -91,7 +91,7 @@ right: 5px;
 display: block;
 float: right;
 padding: 6px 12px 6px 20px;
-background: url('img/bullet_go.png') no-repeat 5px 50%;
+background: url('../shared/img/bullet_go.png') no-repeat 5px 50%;
 background-color: #eee;
 border-radius: 2px;
 cursor: pointer;
@@ -108,7 +108,7 @@ vertical-align: middle;
 }
 
 #status.info {
-background: url('img/information.png') no-repeat left center;
+background: url('../shared/img/information.png') no-repeat left center;
 padding-left: 20px;
 }
 
