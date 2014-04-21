@@ -75,8 +75,8 @@ html, body {
 
 #styles {
     position: fixed;
-    top: 400px;
-    right: 5px;
+    top: 5px;
+    right: 2px;
 }
 
 .icon-refresh {
