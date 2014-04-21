@@ -1,0 +1,76 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial;
+    color: white;
+}
+
+#map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#layers-button {
+    position: absolute;
+    bottom: 0;
+    background: gray;
+    width:100%;
+    text-align: center;
+}
+
+#layers {
+    background: none repeat scroll 0 0 #808080;
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+
+#layer-switcher {
+    height: 90%;
+    width: 100%;
+    overflow: auto;
+}
+
+#layer-switcher .baseLbl,.dataLbl {
+    color: #FFA500;
+    font-weight: bold;
+}
+
+#layer-switcher input {
+    display: none;
+}
+
+#layer-switcher input:checked + label {
+    background: highlight;
+    font-weight: bold;
+}
+
+#layer-switcher label {
+    display: block;
+    text-align: center;
+    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    white-space: pre-wrap;       /* css-3 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    word-break: break-all;
+    white-space: normal;
+}
+
+.close {
+    background: lightgray;
+    height: 10%;
+    color: black;
+    text-align: center;
+}
+
+.hint {
+    font-weight: bold;
+    font-size: larger;
+}
+
+
