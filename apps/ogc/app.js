@@ -107,6 +107,31 @@ function loadWMS() {
     });
 }
 
+function loadStyles() {
+    $("#styles select option").filter(function() {
+        return $(this).prop("disabled") != true;
+    }).remove();
+
+    $.ajax({
+        url: "/styles"
+    }).done(function(data) {
+        var select = $("#styles select");
+        $(Object.keys(data)).each(function(i,v) {
+            $("<option>", { value: v, html: v}).appendTo(select);
+        });
+        select.change(function() {
+            var style = $(this).val();
+            $(map.layers).filter(function() {
+                return !this.isBaseLayer && 
+                    this.initialize.prototype.CLASS_NAME == "OpenLayers.Layer.WMS"
+            }).each(function(i,layer) {
+                layer.mergeNewParams({
+                    STYLES: style
+                })
+            });
+        }); 
+    })
+}
 function init() {
     map = new OpenLayers.Map({
         div: "map"
@@ -133,6 +158,11 @@ function init() {
     $("#layers .close").click(function() {
         $("#layers").hide();
     });
+
+    $("#styles .icon-refresh").click(function() {
+        loadStyles();
+    });
+    loadStyles();
 }
 
 

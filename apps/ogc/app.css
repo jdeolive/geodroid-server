@@ -73,4 +73,18 @@ html, body {
     font-size: larger;
 }
 
+#styles {
+    position: fixed;
+    top: 400px;
+    right: 5px;
+}
+
+.icon-refresh {
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background: url(../shared/img/arrow_refresh.png) no-repeat center;
+}
 
