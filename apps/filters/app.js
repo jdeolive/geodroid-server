@@ -8,10 +8,10 @@ var filters = [
     "STATE_NAME LIKE 'N%'",
     "MALE > FEMALE",
     "UNEMPLOY / (EMPLOYED + UNEMPLOY) > 0.07",
-    "IN ('states.1', 'states.12')",
+    "IN (12,13)",
     "STATE_NAME IN ('New York', 'California', 'Montana', 'Texas')",
     "STATE_NAME = 'New York' OR STATE_NAME = 'Montana'",
-    "STATE_NAME ='Maryland' AND STATE_ABBR='MD'",
+    "STATE_NAME = 'Maryland' AND STATE_ABBR = 'MD'",
     "STATE_NAME <> 'Maryland'"
 ];
 
@@ -33,6 +33,11 @@ function select(what) {
     $(what).addClass("selected");
 }
 
+function customFilter() {
+    $("#filters").children().removeClass("selected");
+    layer.mergeNewParams({cql_filter:$("#filter input").val()});
+}
+
 function init() {
     map = new OpenLayers.Map({
         div: "map"
@@ -46,8 +51,17 @@ function init() {
     layer.events.register("loadstart", null, function() {
         $("#status").html("Loading...");
     });
-    layer.events.register("loadend", null, function() {
-        $("#status").html("");
+    layer.events.register("loadend", null, function(ev) {
+        var err = $(ev.element).find(".olImageLoadError");
+        if (err.length > 0) {
+            $.get(err.eq(0).attr('src'), {}, function(doc) {
+                $("#status").html($(doc).find("ServiceException").text());
+            }).fail(function() {
+                $("#status").html("An error occurred, check the device logs");
+            });
+        } else {
+            $("#status").html("");
+        }
     });
     map.zoomToExtent([-124.731422, 24.955967, -66.969849, 49.371735]);
 
@@ -110,6 +124,14 @@ function init() {
             select(this);
         });
     }
+
+    $("#filter button").click(customFilter);
+    $("#filter input").keypress(function(ev) {
+        if (ev.which == 13) {
+            customFilter();
+        }
+    });
+
 }
 
 
