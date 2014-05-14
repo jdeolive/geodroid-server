@@ -3,8 +3,7 @@ var geomFilters = [
     "DISJOINT",
     "CROSSES",
     "WITHIN",
-    "OVERLAPS",
-    "CONTAINS"
+    "OVERLAPS"
 ];
 
 var filters = [
