@@ -132,6 +132,7 @@ function loadStyles() {
         }); 
     })
 }
+
 function init() {
     map = new OpenLayers.Map({
         div: "map"
@@ -145,7 +146,19 @@ function init() {
     addBaseLayer(new OpenLayers.Layer.WMS("OSM 4326", "http://maps.opengeo.org/geowebcache/service/wms",
         {layers: "openstreetmap", crs: "EPSG:4326", format: "image/png"}));
     addBaseLayer(new OpenLayers.Layer.OSM());
-    map.addControl(new OpenLayers.Control.LayerSwitcher({div:$("#layer-switcher")[0]}));
+    var switcher = new OpenLayers.Control.LayerSwitcher({div:$("#layer-switcher")[0]});
+    // awful hack to prevent multiple events on devices
+    switcher.ignore = false;
+    switcher._onButtonClick = switcher.onButtonClick;
+    switcher.onButtonClick = function(evt) {
+        if (this.ignore) return;
+        this.ignore = true;
+        window.setTimeout(function() {
+            switcher.ignore = false;
+        }, 500);
+        this._onButtonClick(evt);
+    };
+    map.addControl(switcher);
     map.zoomTo(1);
 
     loadWMTS();
@@ -158,7 +171,6 @@ function init() {
     $("#layers .close").click(function() {
         $("#layers").hide();
     });
-
     $("#styles .icon-refresh").click(function() {
         loadStyles();
     });
