@@ -27,12 +27,17 @@ function status(msg) {
     $("#status").html(msg || "");
 }
 
-function updateGeom() {
+function geomFilterStatus() {
     if (feat == null) {
         status("Draw a geometry");
     } else if (activeGeomFilter == null) {
         status("Select a geometry filter");
-    } else {
+    }
+    return feat != null && activeGeomFilter != null;
+}
+
+function updateGeom() {
+    if (geomFilterStatus()) {
         var params = {cql_filter:activeGeomFilter.textContent+"(geometry,"+feat.geometry+")"};
         layer.mergeNewParams(params);
     }
@@ -106,6 +111,7 @@ function init() {
         };
         map.addControl(control);
         $("#" + key).click(function() {
+            geomFilterStatus();
             for (var id in drawControls) {
                 drawControls[id].deactivate();
             }
@@ -116,7 +122,6 @@ function init() {
             }
         });
     }
-    $("#box").click();
 
     for (var i=0; i< geomFilters.length; i++) {
         var filter = $("<div>" + geomFilters[i] + "</div>");
@@ -135,6 +140,7 @@ function init() {
         filter.appendTo("#filters");
         filter.click(function() {
             vLayer.removeAllFeatures();
+            activeGeomFilter = null;
             feat = null;
             update(this);
             select(this);
